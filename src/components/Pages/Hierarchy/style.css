@@ -1,0 +1,13 @@
+.expander {
+    cursor: pointer;
+}
+
+.genome-property>.children{
+    margin: 5px;
+    display: none;
+}
+
+.genome-property.expanded>.children{
+    display: block;
+}
+

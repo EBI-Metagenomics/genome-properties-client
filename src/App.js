@@ -13,7 +13,7 @@ import 'ebi-framework/css/theme-embl-petrol.css';
 import  'EBI-Icon-fonts/fonts.css';
 import './App.css';
 
-import Layout from './components/Layout/Layout'
+import Layout from './components/Layout';
 import {BrowserRouter} from 'react-router-dom';
 
 const client = new ApolloClient({
