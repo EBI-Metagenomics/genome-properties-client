@@ -18,6 +18,7 @@ const GENOME_PROPERTY = gql `
           edges {
             node {
               literatureReferencePmid {
+                pmid,
                 title,
                 author,
                 journal
@@ -31,7 +32,8 @@ const GENOME_PROPERTY = gql `
             node {
               dbId,
               dbLink,
-              comment
+              comment,
+              otherParams
             }
           }
         }
@@ -79,6 +81,34 @@ const GENOME_PROPERTY = gql `
  
 `;
 
+const renderDBLink = (id, link, others) => {
+    switch (id) {
+        case "KEGG":
+            return <a href={`http://www.genome.jp/dbget-bin/www_bget?pathway:${link}`} target="_blank">KEGG</a>;
+        case "IUBMB":
+            return <a href={`http://www.chem.qmul.ac.uk/iubmb/enzyme/reaction/${link}/${others}.html`} target="_blank">IUBMB</a>;
+        case "MetaCyc":
+            return <a href={`https://metacyc.org/META/NEW-IMAGE?type=NIL&object=${link}`} target="_blank">MetaCyc</a>;
+        case "Complex Portal":
+            return <a href={`https://www.ebi.ac.uk/complexportal/complex/${link}`} target="_blank">Complex Portal</a>;
+        case "PDBe":
+            return <a href={`https://www.ebi.ac.uk/pdbe/entry/pdb/${link}`} target="_blank">PDBe</a>;
+        default:
+            return null;
+    }
+};
+
+const renderEvidenceLink = (id) => {
+    if (id.startsWith("GO:"))
+        return <a href={`http://www.ebi.ac.uk/QuickGO/GTerm?id=${id}`} target="_blank">{id}</a>;
+    else if (id.startsWith("IPR"))
+        return <a href={`https://www.ebi.ac.uk/interpro/entry/${id}`} target="_blank">{id}</a>;
+    else if (id.startsWith("TIGR"))
+        return <a href={`http://www.jcvi.org/cgi-bin/tigrfams/HmmReportPage.cgi?acc=${id}`} target="_blank">{id}</a>;
+    else
+        return null;
+};
+
 const GenomeProperty = (props) => {
     const { accession } = props.location.state;
     const { loading, error, data } = useQuery(GENOME_PROPERTY, {
@@ -99,7 +129,7 @@ const GenomeProperty = (props) => {
             <br />
             <div>
                 <h4>Description</h4>
-                <p>{gp.comment}</p>
+                {gp.comment} {/* Todo Fix link*/}
             </div>
             <div>
                 <h4>References</h4>
@@ -108,14 +138,14 @@ const GenomeProperty = (props) => {
                     {gp.gplitrefSet?.edges.length > 0 ? gp.gplitrefSet.edges.map((edge, i) => {
                         const {literatureReferencePmid: litRef, listOrder} = edge.node;
                         return (
-                            <li className="reference" id={`${accession}-${listOrder}`} key={i}>
+                            <li className="reference" id={`${accession}-${listOrder}`} key={`${accession}-${listOrder}`}>
                                 <span className="index">[{i +1}]</span>
-                                <span className="authors">{litRef.author}</span>
-                                <span className="title">{litRef.title}</span>
-                                <span className="citation">{litRef.journal}</span>
-                                <span className="reference_id">{litRef.pmid}</span>
-                                {/*<a target="_blank" rel="noopener"*/}
-                                {/*   href="https://europepmc.org/abstract/MED/12636087">EuropePMC</a>*/}
+                                <span className="authors">{litRef.author + ' '}</span>
+                                <span className="title">{litRef.title + ' '}</span>
+                                <span className="citation">{litRef.journal+ ' '}</span>
+                                <span className="reference_id">{litRef.pmid+ ' '}</span>
+                                <a target="_blank" rel="noopener"
+                                   href={`https://europepmc.org/abstract/MED/${litRef.pmid}`}>EuropePMC</a>
                             </li>
                         );
                     }) : <cite>None</cite>}
@@ -126,10 +156,10 @@ const GenomeProperty = (props) => {
 
                 <ul>
                     {gp.gpdatabaselinkSet?.edges.length > 0 ? gp.gpdatabaselinkSet.edges.map(edge => {
-                        const {dbId, dbLink, comment} = edge.node;
+                        const {dbId, dbLink, comment, otherParams} = edge.node;
                         return (
                             <li key={dbId}>
-                                <b>{comment}</b>: {dbId}
+                                <b>{comment}</b>: {renderDBLink(dbId, dbLink, otherParams)}
                                 {/*<b>Shikimate and Chorismate Biosynthesis</b>: <a href="http://www.chem.qmul.ac.uk/iubmb/enzyme/reaction/misc/shikim.html">IUBMB</a>*/}
                             </li>
                         );
@@ -190,21 +220,25 @@ const GenomeProperty = (props) => {
                         {gp.gpstepSet.edges.map(edge => {
                             const {stepId, stepNumber, required, gpstepevidenceiprSet} = edge.node;
                             return (
-                                <>
+                                <React.Fragment key={`${stepId}-${stepNumber}`}>
                                     {gpstepevidenceiprSet.edges.map((stepEdge, i) => {
                                         const gpToIpr = stepEdge.node;
                                         const iprToGo = gpToIpr.iprsteptogoSet?.edges[0]?.node;
                                         return (
-                                            <>
+                                            <React.Fragment key={`${stepId}-${stepNumber}-${i}`}>
                                                 {i > 0 ?
                                                     <tr style={{backgroundColor: "white"}}>
                                                         <td>
-                                                            {gpToIpr.interproAcc} - {gpToIpr.signatureAcc}
+                                                            {renderEvidenceLink(gpToIpr.interproAcc)} - {renderEvidenceLink(gpToIpr.signatureAcc)}
+                                                            {/*{gpToIpr.interproAcc} - {gpToIpr.signatureAcc}*/}
                                                             {/*<a href="https://www.ebi.ac.uk/interpro/entry/IPR005946">IPR005946</a> - <a*/}
                                                             {/*href="http://www.jcvi.org/cgi-bin/tigrfams/HmmReportPage.cgi?acc=TIGR01251">TIGR01251</a>*/}
                                                         </td>
                                                         <td>
-                                                            {iprToGo ? iprToGo.go.goId : <cite>None</cite>}
+                                                            {iprToGo ?
+                                                                renderEvidenceLink(iprToGo.go.goId)
+                                                                // iprToGo.go.goId
+                                                                : <cite>None</cite>}
                                                             {/*<a href="http://www.ebi.ac.uk/QuickGO/GTerm?id={GO:0000162}">{iprToGo.goId}</a>*/}
                                                         </td>
                                                     </tr> :
@@ -214,23 +248,26 @@ const GenomeProperty = (props) => {
                                                             {required ? null : <> <br/> < span className="tag secondary">Optional</span></>}
                                                         </td>
                                                         <td>
-                                                            {gpToIpr.interproAcc} - {gpToIpr.signatureAcc}
+                                                            {renderEvidenceLink(gpToIpr.interproAcc)} - {renderEvidenceLink(gpToIpr.signatureAcc)}
+                                                            {/*{gpToIpr.interproAcc} - {gpToIpr.signatureAcc}*/}
                                                             {/*<a href="https://www.ebi.ac.uk/interpro/entry/IPR005946">IPR005946</a> - <a*/}
                                                             {/*href="http://www.jcvi.org/cgi-bin/tigrfams/HmmReportPage.cgi?acc=TIGR01251">TIGR01251</a>*/}
                                                         </td>
                                                         <td>
-                                                            {iprToGo ? iprToGo.go.goId : <cite>None</cite>}
+                                                            {iprToGo ?
+                                                                renderEvidenceLink(iprToGo.go.goId)
+                                                                // iprToGo.go.goId
+                                                                : <cite>None</cite>}
                                                             {/*<a href="http://www.ebi.ac.uk/QuickGO/GTerm?id={GO:0000162}">{iprToGo.goId}</a>*/}
                                                         </td>
                                                     </tr>
                                                 }
-                                            </>
+                                            </React.Fragment>
                                         );
                                     })}
-                                </>
+                                </React.Fragment>
                             );
                         })}
-
                         </tbody>
                     </table>
                     <span data-tooltip="2u4ti4-tooltip" aria-haspopup="true" data-disable-hover="false"

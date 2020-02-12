@@ -30,7 +30,7 @@ const About = () => {
                     <AboutGenomeProperties />
                 </div>
                 <div className="tabs-panel" id="calculating">
-                    <Calculating/>
+                    <Calculating />
                 </div>
                 <div className="tabs-panel" id="funding">
                     <Funding/>
