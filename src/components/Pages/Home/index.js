@@ -5,7 +5,7 @@ import ViewerIcon from '../../../images/viewer_icon.jpg'
 
 const Home = () => {
     return (
-        <section>
+        <section style={{padding: "16px"}}>
             <p>
                 Genome properties is an annotation system whereby functional attributes can be assigned to a genome,
                 based on the presence of a defined set of protein signatures within that genome. Properties (which often
@@ -22,6 +22,7 @@ const Home = () => {
                                 <img
                                     src={BrowseIcon}
                                     width=" 400px"
+                                    alt="Browse Genome Properties"
                                 />
                             </a>
                         </td>
@@ -30,6 +31,7 @@ const Home = () => {
                                 <img
                                     src={ViewerIcon}
                                     width=" 400px"
+                                    alt="Genome Properties Viewer"
                                 />
                             </a>
                         </td>

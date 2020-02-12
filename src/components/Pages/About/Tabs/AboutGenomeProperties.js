@@ -13,7 +13,7 @@ const AboutGenomeProperties = () => {
                     in the proline biosynthesis pathway.
                 </p>
                 <p>
-                    <img src={AboutGP} />
+                    <img src={AboutGP} alt="Genome Properties"/>
                 </p>
                 <p>
                     While it is possible to infer this kind of information through analysis of genomic sequence, using

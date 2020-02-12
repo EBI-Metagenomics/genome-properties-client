@@ -10,7 +10,7 @@ const Header = () => (
                 id="local-title"
             >
                 <h1 className="main-title">
-                    <img src={GPLogo} width=" 60px"/> {' '}
+                    <img src={GPLogo} width=" 60px" alt="GP Logo"/> {' '}
                     <a title="Back to Genome Properties homepage" href="../../..">
                         Genome Properties
                     </a>

@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react'
+import React, {useEffect} from 'react';
 import $ from "jquery";
 import Hierarchy from "./Hierarchy";
-import ListByType from "../ListByType";
+import ListByType from "./ListByType";
 
 const Browse = () => {
     useEffect(() => {

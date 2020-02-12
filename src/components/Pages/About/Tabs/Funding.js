@@ -15,7 +15,7 @@ const Funding = () => {
                         <tr>
                             <td>
                                 <a href=" http://www.embl.org" alt=" EMBL-EBI">
-                                    <img src={EMBLLogo} />
+                                    <img src={EMBLLogo} alt="EMBL Logo"/>
                                 </a>
                             </td>
                             <td> EMBL is EMBL-EBI's parent organisation</td>
@@ -25,7 +25,7 @@ const Funding = () => {
                             <td>
                                 <a href=" http://www.bbsrc.ac.uk"
                                    alt=" Biotechnology and Biological Sciences Research Council">
-                                    <img src={BBSRCLogo} />
+                                    <img src={BBSRCLogo} alt="BBSRC Logo"/>
                                 </a>
                             </td>
                             <td> Biotechnology and Biological Sciences Research Council</td>
@@ -34,7 +34,7 @@ const Funding = () => {
                         <tr>
                             <td>
                                 <a href=" https://www.nsf.gov" alt=" National Science Foundation">
-                                    <img src={NSFLogo} />
+                                    <img src={NSFLogo} alt="NSF Logo"/>
                                 </a>
                             </td>
                             <td> National Science Foundation</td>

@@ -84,15 +84,15 @@ const GENOME_PROPERTY = gql `
 const renderDBLink = (id, link, others) => {
     switch (id) {
         case "KEGG":
-            return <a href={`http://www.genome.jp/dbget-bin/www_bget?pathway:${link}`} target="_blank">KEGG</a>;
+            return <a href={`http://www.genome.jp/dbget-bin/www_bget?pathway:${link}`} target="_blank" rel="noopener noreferrer">KEGG</a>;
         case "IUBMB":
-            return <a href={`http://www.chem.qmul.ac.uk/iubmb/enzyme/reaction/${link}/${others}.html`} target="_blank">IUBMB</a>;
+            return <a href={`http://www.chem.qmul.ac.uk/iubmb/enzyme/reaction/${link}/${others}.html`} target="_blank" rel="noopener noreferrer">IUBMB</a>;
         case "MetaCyc":
-            return <a href={`https://metacyc.org/META/NEW-IMAGE?type=NIL&object=${link}`} target="_blank">MetaCyc</a>;
+            return <a href={`https://metacyc.org/META/NEW-IMAGE?type=NIL&object=${link}`} target="_blank" rel="noopener noreferrer">MetaCyc</a>;
         case "Complex Portal":
-            return <a href={`https://www.ebi.ac.uk/complexportal/complex/${link}`} target="_blank">Complex Portal</a>;
+            return <a href={`https://www.ebi.ac.uk/complexportal/complex/${link}`} target="_blank" rel="noopener noreferrer">Complex Portal</a>;
         case "PDBe":
-            return <a href={`https://www.ebi.ac.uk/pdbe/entry/pdb/${link}`} target="_blank">PDBe</a>;
+            return <a href={`https://www.ebi.ac.uk/pdbe/entry/pdb/${link}`} target="_blank" rel="noopener noreferrer">PDBe</a>;
         default:
             return null;
     }
@@ -100,11 +100,11 @@ const renderDBLink = (id, link, others) => {
 
 const renderEvidenceLink = (id) => {
     if (id.startsWith("GO:"))
-        return <a href={`http://www.ebi.ac.uk/QuickGO/GTerm?id=${id}`} target="_blank">{id}</a>;
+        return <a href={`http://www.ebi.ac.uk/QuickGO/GTerm?id=${id}`} target="_blank" rel="noopener noreferrer">{id}</a>;
     else if (id.startsWith("IPR"))
-        return <a href={`https://www.ebi.ac.uk/interpro/entry/${id}`} target="_blank">{id}</a>;
+        return <a href={`https://www.ebi.ac.uk/interpro/entry/${id}`} target="_blank" rel="noopener noreferrer">{id}</a>;
     else if (id.startsWith("TIGR"))
-        return <a href={`http://www.jcvi.org/cgi-bin/tigrfams/HmmReportPage.cgi?acc=${id}`} target="_blank">{id}</a>;
+        return <a href={`http://www.jcvi.org/cgi-bin/tigrfams/HmmReportPage.cgi?acc=${id}`} target="_blank" rel="noopener noreferrer">{id}</a>;
     else
         return null;
 };
@@ -144,7 +144,7 @@ const GenomeProperty = (props) => {
                                 <span className="title">{litRef.title + ' '}</span>
                                 <span className="citation">{litRef.journal+ ' '}</span>
                                 <span className="reference_id">{litRef.pmid+ ' '}</span>
-                                <a target="_blank" rel="noopener"
+                                <a target="_blank" rel="noopener noreferrer"
                                    href={`https://europepmc.org/abstract/MED/${litRef.pmid}`}>EuropePMC</a>
                             </li>
                         );
@@ -160,7 +160,6 @@ const GenomeProperty = (props) => {
                         return (
                             <li key={dbId}>
                                 <b>{comment}</b>: {renderDBLink(dbId, dbLink, otherParams)}
-                                {/*<b>Shikimate and Chorismate Biosynthesis</b>: <a href="http://www.chem.qmul.ac.uk/iubmb/enzyme/reaction/misc/shikim.html">IUBMB</a>*/}
                             </li>
                         );
                     }) : <cite>None</cite>}
@@ -230,16 +229,11 @@ const GenomeProperty = (props) => {
                                                     <tr style={{backgroundColor: "white"}}>
                                                         <td>
                                                             {renderEvidenceLink(gpToIpr.interproAcc)} - {renderEvidenceLink(gpToIpr.signatureAcc)}
-                                                            {/*{gpToIpr.interproAcc} - {gpToIpr.signatureAcc}*/}
-                                                            {/*<a href="https://www.ebi.ac.uk/interpro/entry/IPR005946">IPR005946</a> - <a*/}
-                                                            {/*href="http://www.jcvi.org/cgi-bin/tigrfams/HmmReportPage.cgi?acc=TIGR01251">TIGR01251</a>*/}
                                                         </td>
                                                         <td>
                                                             {iprToGo ?
                                                                 renderEvidenceLink(iprToGo.go.goId)
-                                                                // iprToGo.go.goId
                                                                 : <cite>None</cite>}
-                                                            {/*<a href="http://www.ebi.ac.uk/QuickGO/GTerm?id={GO:0000162}">{iprToGo.goId}</a>*/}
                                                         </td>
                                                     </tr> :
                                                     <tr style={{backgroundColor: 'white'}}>
@@ -249,16 +243,11 @@ const GenomeProperty = (props) => {
                                                         </td>
                                                         <td>
                                                             {renderEvidenceLink(gpToIpr.interproAcc)} - {renderEvidenceLink(gpToIpr.signatureAcc)}
-                                                            {/*{gpToIpr.interproAcc} - {gpToIpr.signatureAcc}*/}
-                                                            {/*<a href="https://www.ebi.ac.uk/interpro/entry/IPR005946">IPR005946</a> - <a*/}
-                                                            {/*href="http://www.jcvi.org/cgi-bin/tigrfams/HmmReportPage.cgi?acc=TIGR01251">TIGR01251</a>*/}
                                                         </td>
                                                         <td>
                                                             {iprToGo ?
                                                                 renderEvidenceLink(iprToGo.go.goId)
-                                                                // iprToGo.go.goId
                                                                 : <cite>None</cite>}
-                                                            {/*<a href="http://www.ebi.ac.uk/QuickGO/GTerm?id={GO:0000162}">{iprToGo.goId}</a>*/}
                                                         </td>
                                                     </tr>
                                                 }
