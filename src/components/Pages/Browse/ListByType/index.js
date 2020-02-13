@@ -24,20 +24,25 @@ const ListByType = ({type}) => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error! </p>;
 
-    return data.genomeProperties.edges.map((edge, i) => {
-        const {accession, description} = edge.node;
-        return(
-            <div key={i}>
-                <Link className="link" to={{
-                    pathname: "/genome-property",
-                    hash:`#${accession}`,
-                    state: {
-                        accession: accession,
-                    }
-                }}>{accession}</Link> : {description}
-            </div>
-        );
-    });
+    if (data.genomeProperties?.edges?.length) {
+        return data.genomeProperties.edges.map((edge) => {
+            const {accession, description} = edge.node;
+            return(
+                <div key={accession}>
+                    <Link className="link" to={{
+                        pathname: "/genome-property",
+                        hash:`#${accession}`,
+                        state: {
+                            accession: accession,
+                        }
+                    }}>{accession}</Link> : {description}
+                </div>
+            );
+        });
+    }
+
+    return <div>None</div>
+
 };
 
 export default withRouter(ListByType);

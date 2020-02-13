@@ -82,7 +82,7 @@ const HIERARCHY = gql `
  }
 `;
 const ToggleGenPropContent = (e) => {
-    // TODO Check whether useRef can be used
+    // TODO To be changed to do the react way
     const element = e.target;
     if (element.parentNode.parentNode.classList.contains("expanded")) {
         element.innerHTML = '▸';
