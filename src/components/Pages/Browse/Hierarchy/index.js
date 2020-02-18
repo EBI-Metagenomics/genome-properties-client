@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from 'apollo-boost';
 import {Link} from "react-router-dom";
@@ -82,29 +82,34 @@ const HIERARCHY = gql `
  }
 `;
 
-const toggleGenPropContent = (_ref, e) => {
-    if (_ref.current.classList.contains("expanded")) {
-        e.target.innerHTML = '▸';
-        _ref.current.classList.remove("expanded");
+const toggleGenPropContent = (e) => {
+    if (e.target.parentNode.parentNode.classList.contains("expanded")) {
+        collapse(e.target);
     } else {
-        e.target.innerHTML = '▾';
-        _ref.current.classList.add("expanded");
+        expand(e.target);
     }
+};
+
+const expand = element => {
+    element.innerHTML = '▾';
+    if (element.parentNode.parentNode)
+        element.parentNode.parentNode.classList.add("expanded");
+};
+
+const collapse = element => {
+    element.innerHTML = '▸';
+    element.parentNode.parentNode.classList.remove("expanded");
 };
 
 const expandAll = () => {
     document.querySelectorAll(".genome-property span.expander").forEach(e => {
-        e.innerHTML = "▾";
-        if (e.parentNode.parentNode)
-            e.parentNode.parentNode.classList.add("expanded");
+        expand(e);
     });
 };
 
 const collapseAll = () => {
     document.querySelectorAll(".genome-property span.expander").forEach(e => {
-        e.innerHTML = "▸";
-        if (e.parentNode.parentNode)
-            e.parentNode.parentNode.classList.remove("expanded");
+        collapse(e);
     });
 };
 
@@ -130,17 +135,16 @@ const searchHierarchy = (e) => {
             });
 };
 
-const RenderHierarchyFromData = ({node, level, expanded}) => {
-    const _ref = useRef();
+const renderHierarchyFromData = (node, level, expanded = false) => {
     const children = node?.gpstepSet?.edges;
 
     if (node) {
         return (
-            <div className={"genome-property " + `${expanded ? 'expanded' : ''}`} key={node.accession} ref={_ref}>
+            <div className={"genome-property " + `${expanded ? 'expanded' : ''}`} key={node.accession} >
                 <header>
                     {children?.length && children[0]?.node.gpstepevidencegpSet?.edges.length ?
                         <span className="expander" style={{border: 0,color: "darkred"}}
-                              onClick={(e) => toggleGenPropContent(_ref, e)} >
+                              onClick={toggleGenPropContent} >
                             {expanded ? '▾': '▸'}
                         </span>
                         : '・'}
@@ -167,8 +171,7 @@ const RenderHierarchyFromData = ({node, level, expanded}) => {
                     <div className="children" style={{marginLeft: `${level*10}px`}}>
                         {node.gpstepSet.edges.map(edge => {
                             const childrenNode = edge.node.gpstepevidencegpSet?.edges[0]?.node.gpAccession || undefined;
-                            // return renderHierarchyFromData(childrenNode, level +1, false);
-                            return <RenderHierarchyFromData node={childrenNode} level={level + 1} expanded={false}/>
+                            return renderHierarchyFromData(childrenNode, level +1, false);
                         })}
                     </div> : null
                 }
@@ -187,7 +190,7 @@ const Hierarchy = () => {
     if (error) return <p>Error! </p>;
 
     const gpNode = data.genomeProperties.edges[0].node;
-    // const tree = renderHierarchyFromData(gpNode, 1);
+    const tree = renderHierarchyFromData(gpNode, 1, true);
     return (
         <section>
             <div>
@@ -197,8 +200,7 @@ const Hierarchy = () => {
                 <a className="collapse-all" onClick={collapseAll}>Collapse All</a>
                 <br />
                 <br />
-                {/*{tree}*/}
-                <RenderHierarchyFromData node={gpNode} level={1} expanded={true} />
+                {tree}
             </div>
         </section>
     );
