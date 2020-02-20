@@ -1,85 +1,7 @@
 import React from 'react';
 import { useQuery } from "@apollo/react-hooks";
-import { gql } from 'apollo-boost';
+import { GENOME_PROPERTY } from "../gqlQueries";
 import {Link} from "react-router-dom";
-
-const GENOME_PROPERTY = gql `
- query ($accession: String!) { 
-    genomeProperties(accession: $accession) {
-    edges {
-      node {
-        accession,
-        type,
-        author,
-        description,
-        threshold,
-        comment,
-        gplitrefSet {
-          edges {
-            node {
-              literatureReferencePmid {
-                pmid,
-                title,
-                author,
-                journal
-              }
-              listOrder
-            }
-          }
-        }
-        gpdatabaselinkSet {
-          edges {
-            node {
-              dbId,
-              dbLink,
-              comment,
-              otherParams
-            }
-          }
-        }
-        gpstepSet {
-          edges {
-            node {
-              autoStep,
-              stepId,
-              stepNumber,
-              required,
-              gpstepevidencegpSet {
-                edges {
-                  node {
-                    gpAccession {
-                      accession
-                    }
-                  }
-                }
-              },
-              gpstepevidenceiprSet {
-                edges {
-                  node {
-                    interproAcc,
-                    signatureAcc,
-                    autoIprStep,
-                    iprsteptogoSet {
-                      edges {
-                        node {
-                          go {
-                            goId
-                          } 
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
- }
- 
-`;
 
 const renderDBLink = (id, link, others) => {
     switch (id) {
@@ -180,7 +102,7 @@ const GenomeProperty = (props) => {
                             const {stepId, gpstepevidencegpSet} = edge.node;
                             const accNode = gpstepevidencegpSet.edges[0].node.gpAccession;
                             return (
-                                <tr style={{backgroundColor: "white"}}>
+                                <tr style={{backgroundColor: "white"}} key={accNode.accession}>
                                     <td>
                                         {i +1}. <Link className="link" to={{
                                         pathname: "/genome-property",

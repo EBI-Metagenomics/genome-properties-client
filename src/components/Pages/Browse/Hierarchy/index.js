@@ -1,86 +1,9 @@
 import React from 'react';
 import { useQuery } from "@apollo/react-hooks";
-import { gql } from 'apollo-boost';
+import { HIERARCHY } from "../../../gqlQueries";
 import {Link} from "react-router-dom";
 
 import './style.css';
-
-const HIERARCHY = gql `
- query ($accession: String!) {
-    genomeProperties (accession: $accession) {
-    edges {
-      node {
-        accession,
-        description
-        gpstepSet {
-          edges {
-            node {
-              gpstepevidencegpSet {
-                edges {
-                  node {
-                    gpAccession {
-                      accession,
-                      description
-                      gpstepSet {
-                        edges {
-                          node {
-                            gpstepevidencegpSet {
-                              edges {
-                                node {
-                                  gpAccession {
-                                    accession,
-                                    description,
-                                    gpstepSet {
-                                      edges {
-                                        node {
-                                          gpstepevidencegpSet {
-                                            edges {
-                                              node {
-                                                gpAccession {
-                                                  accession,
-                                                  description,
-                                                  gpstepSet {
-                                                    edges {
-                                                      node {
-                                                        gpstepevidencegpSet {
-                                                          edges {
-                                                            node {
-                                                              gpAccession {
-                                                                accession,
-                                                                description
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
- }
-`;
 
 const toggleGenPropContent = (e) => {
     if (e.target.parentNode.parentNode.classList.contains("expanded")) {
@@ -169,7 +92,7 @@ const renderHierarchyFromData = (node, level, expanded = false) => {
 
                 {children?.length ?
                     <div className="children" style={{marginLeft: `${level*10}px`}}>
-                        {node.gpstepSet.edges.map(edge => {
+                        {children.map(edge => {
                             const childrenNode = edge.node.gpstepevidencegpSet?.edges[0]?.node.gpAccession || undefined;
                             return renderHierarchyFromData(childrenNode, level +1, false);
                         })}

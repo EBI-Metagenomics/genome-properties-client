@@ -1,20 +1,7 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import { useQuery } from "@apollo/react-hooks";
-import { gql } from 'apollo-boost';
-
-const BY_TYPE = gql `
-    query ($type: String!) {
-        genomeProperties (type: $type) {
-            edges {
-                node {
-                    accession
-                    description
-                }
-            }
-        }
-    }
-`;
+import { BY_TYPE } from '../../../gqlQueries';
 
 const ListByType = ({type}) => {
     const { loading, error, data } = useQuery(BY_TYPE, {
