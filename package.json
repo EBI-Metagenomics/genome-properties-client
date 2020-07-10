@@ -11,7 +11,7 @@
     "apollo-boost": "^0.4.7",
     "ebi-framework": "1.3.13",
     "foundation-sites": "6.6.0",
-    "genome-properties-viewer": "^0.3.0",
+    "genome-properties-viewer": "0.4.0",
     "graphql": "^14.6.0",
     "jquery": "^3.4.1",
     "prop-types": "15.7.2",

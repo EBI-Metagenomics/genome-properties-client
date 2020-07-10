@@ -1,4 +1,5 @@
 import React from 'react';
+import releaseNoteFixture from "../releaseNoteFixture";
 import './style.css';
 import BrowseIcon from '../../../images/browse_icon.jpg';
 import ViewerIcon from '../../../images/viewer_icon.jpg'
@@ -58,8 +59,8 @@ const Home = () => {
             </p>
 
             <p>
-                Genome Properties version: v2.0 <br />
-                Dependency on InterProScan version: 5.30-69.0
+                Genome Properties version: {releaseNoteFixture.version} <br />
+                Dependency on InterProScan version: {releaseNoteFixture.interProScanVersion}
             </p>
         </section>
     );

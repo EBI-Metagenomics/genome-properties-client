@@ -63,38 +63,26 @@ const renderHierarchyFromData = (node, level, expanded = false) => {
 
     if (node) {
         return (
-            <div className={"genome-property " + `${expanded ? 'expanded' : ''}`} key={node.accession} >
+            <div className={"genome-property " + `${expanded ? 'expanded' : ''}`} key={node.accession}>
                 <header>
                     {children?.length && children[0]?.node.gpstepevidencegpSet?.edges.length ?
-                        <span className="expander" style={{border: 0,color: "darkred"}}
-                              onClick={toggleGenPropContent} >
-                            {expanded ? '▾': '▸'}
+                        <span className="expander" style={{border: 0, color: "darkred"}}
+                              onClick={toggleGenPropContent}>
+                            {expanded ? '▾' : '▸'}
                         </span>
                         : '・'}
 
                     <span className="genprop-label" text={`${node.accession} ${node.description}`}>
-                    <Link className="link" to={{
-                        pathname: "/genome-property",
-                        hash:`#${node.accession}`,
-                        state: {
-                            accession: node.accession,
-                        }
-                    }}>{node.accession}</Link>:
-                    <Link className="link" to={{
-                        pathname: "/genome-property",
-                        hash:`#${node.accession}`,
-                        state: {
-                            accession: node.accession,
-                        }
-                    }}>{node.description}</Link>
-                </span>
+                        <Link to={`/genome-property/${node.accession}`}>{node.accession}</Link>:
+                        <Link to={`/genome-property/${node.accession}`}>{node.description}</Link>
+                    </span>
                 </header>
 
                 {children?.length ?
-                    <div className="children" style={{marginLeft: `${level*10}px`}}>
+                    <div className="children" style={{marginLeft: `${level * 10}px`}}>
                         {children.map(edge => {
                             const childrenNode = edge.node.gpstepevidencegpSet?.edges[0]?.node.gpAccession || undefined;
-                            return renderHierarchyFromData(childrenNode, level +1, false);
+                            return renderHierarchyFromData(childrenNode, level + 1, false);
                         })}
                     </div> : null
                 }

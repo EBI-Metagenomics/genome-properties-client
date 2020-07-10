@@ -18,11 +18,11 @@ const Layout = () => {
                 <section>
                     <div id="main-content-area" className="row">
                         <div className="columns">
-                            <Route path="/" exact component={Home} />
-                            <Route path="/viewer" exact component={Viewer} />
-                            <Route path="/browse" exact component={Browse} />
-                            <Route path="/about" exact component={About} />
-                            <Route path="/genome-property" exact component={GenomeProperty} />
+                            <Route path="/" exact={true} component={Home} />
+                            <Route path="/viewer" exact={true} component={Viewer} />
+                            <Route path="/browse" exact={true} component={Browse} />
+                            <Route path="/about" exact={true} component={About} />
+                            <Route path="/genome-property/:accession" exact={true} component={GenomeProperty} />
                         </div>
                     </div>
                 </section>

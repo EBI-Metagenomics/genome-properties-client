@@ -31,8 +31,8 @@ const renderEvidenceLink = (id) => {
         return null;
 };
 
-const GenomeProperty = (props) => {
-    const { accession } = props.location.state;
+const GenomeProperty = ({match}) => {
+    const accession = match.params.accession;
     const { loading, error, data } = useQuery(GENOME_PROPERTY, {
         variables: { accession: accession}
     });
@@ -42,7 +42,7 @@ const GenomeProperty = (props) => {
 
     const gp = data.genomeProperties.edges[0].node;
     return (
-        <section>
+        <section className={'gp-content'}>
             <h2>{accession} - {gp.description}</h2>
             <span className="tag">Type: {gp.type}</span>
             <br />
@@ -90,7 +90,7 @@ const GenomeProperty = (props) => {
             {gp.type === "CATEGORY" ?
                 <div>
                     <h4>Genome properties</h4>
-                    <table className="no-stripe" style={{backgroundColor: "#86a5bb"}}>
+                    <table className="no-stripe" style={{backgroundColor: "#337fb6", borderCollapse: "separate"}}>
                         <tbody>
                         <tr style={{backgroundColor: "#ddd"}}>
                             <th width="30%">Property
@@ -104,22 +104,10 @@ const GenomeProperty = (props) => {
                             return (
                                 <tr style={{backgroundColor: "white"}} key={accNode.accession}>
                                     <td>
-                                        {i +1}. <Link className="link" to={{
-                                        pathname: "/genome-property",
-                                        hash:`#${accNode.accession}`,
-                                        state: {
-                                            accession: accNode.accession,
-                                        }
-                                    }}>{stepId}</Link>
+                                        {i +1}. <Link to={`/genome-property/${accNode.accession}`}>{stepId}</Link>
                                     </td>
                                     <td>
-                                        <Link className="link" to={{
-                                        pathname: "/genome-property",
-                                        hash:`#${accNode.accession}`,
-                                        state: {
-                                            accession: accNode.accession,
-                                        }
-                                    }}>{accNode.accession}</Link>
+                                        <Link to={`/genome-property/${accNode.accession}`}>{accNode.accession}</Link>
                                     </td>
                                 </tr>
                             );
@@ -129,7 +117,7 @@ const GenomeProperty = (props) => {
                 </div>
                 : <div>
                     <h4>Steps</h4>
-                    <table className="no-stripe" style={{backgroundColor: '#86a5bb'}}>
+                    <table className="no-stripe" style={{backgroundColor: '#337fb6', borderCollapse: "separate"}}>
                         <tbody>
                         <tr style={{backgroundColor: '#ddd'}}>
                             <th width="30%">Step

@@ -1,21 +1,23 @@
 import React, { useEffect } from "react";
 import gpv from 'genome-properties-viewer';
 import "genome-properties-viewer/gp-style.css";
+import $ from "jquery";
 
-const GenPropViewer = ({gpHierarchy}) => {
+// const GenPropViewer = ({gpHierarchy}) => {
+const GenPropViewer = () => {
 
     const github = "https://raw.githubusercontent.com/ebi-pf-team/genome-properties/master";
     useEffect(() => {
+        $(document).foundation();
+
         let d3 = gpv.d3,
             GenomePropertiesViewer = gpv.GenomePropertiesViewer,
-            // TODO disabled autocomplete code in gp-controller as it doesnt support react. Need to work on it
             viewer = new GenomePropertiesViewer({
                 element_selector: "#gp-viewer",
                 controller_element_selector: "#gp-selector",
                 server: `${github}/flatfiles/gp_assignments/SUMMARY_FILE_{}.gp`,
                 hierarchy_path: `${github}/flatfiles/hierarchy.json`,
-                // TODO hierarchy should be accepted as data instead of giving it as a JSON file
-                // hierarchy: gpHierarchy,
+                // hierarchy_path: gpHierarchy,
                 server_tax: `${github}/flatfiles/taxonomy.json`,
                 model_species_path: `${github}/flatfiles/gp_assignments/json/JSON_MERGED`,
                 height: 400,

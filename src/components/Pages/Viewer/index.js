@@ -32,18 +32,18 @@ const Viewer = () => {
         $(document).foundation();
     },[]);
 
-    const accession = "GenProp0065";
-    const { loading, error, data } = useQuery(HIERARCHY, {
-        variables: { accession: accession}
-    });
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error! </p>;
+    // const accession = "GenProp0065";
+    // const { loading, error, data } = useQuery(HIERARCHY, {
+    //     variables: { accession: accession}
+    // });
+    // if (loading) return <p>Loading...</p>;
+    // if (error) return <p>Error! </p>;
 
-    const hierarchyJson = {
-        id: data.genomeProperties.edges[0].node.accession,
-        name : data.genomeProperties.edges[0].node.description ,
-        children: gqlTod3(data.genomeProperties.edges[0].node)
-    };
+    // const hierarchyJson = {
+    //     id: data.genomeProperties.edges[0].node.accession,
+    //     name : data.genomeProperties.edges[0].node.description ,
+    //     children: gqlTod3(data.genomeProperties.edges[0].node)
+    // };
 
     return (
         <>
@@ -55,7 +55,8 @@ const Viewer = () => {
 
             <div className="tabs-content" data-tabs-content="viewer-tabs">
                 <div className="tabs-panel is-active" id="viewer">
-                    <GenPropViewer gpHierachy={hierarchyJson} />
+                    {/*<GenPropViewer gpHierarchy={hierarchyJson} />*/}
+                    <GenPropViewer />
                 </div>
                 <div className="tabs-panel" id="instructions">
                     <Instructions />

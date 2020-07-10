@@ -16,13 +16,7 @@ const ListByType = ({type}) => {
             const {accession, description} = edge.node;
             return(
                 <div key={accession}>
-                    <Link className="link" to={{
-                        pathname: "/genome-property",
-                        hash:`#${accession}`,
-                        state: {
-                            accession: accession,
-                        }
-                    }}>{accession}</Link> : {description}
+                    <Link to={`/genome-property/${accession}`}>{accession}</Link> : {description}
                 </div>
             );
         });

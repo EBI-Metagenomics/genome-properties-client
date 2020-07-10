@@ -1,0 +1,19 @@
+.masthead {
+    /*position: sticky;*/
+    /* top: -150px;*/ /*!* -34px (EBI header); *!*/
+    left: 0;
+    right: 0;
+    z-index: 3;
+}
+.masthead {
+    background-image: linear-gradient(
+            to right,
+            rgba(0, 85, 158, 0.9),
+            rgba(45, 174, 193, 0.5),
+            rgba(0, 85, 158, 0.9)
+    ),
+    url(../../../images/background.png);
+    background-repeat: no-repeat, repeat;
+    background-position: 0, 100% 0%;
+    background-size: 100%, 2030px;
+}

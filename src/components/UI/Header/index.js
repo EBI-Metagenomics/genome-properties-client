@@ -1,6 +1,7 @@
 import React from 'react';
 import NavigationMenu from '../NavigationMenu';
 import GPLogo from '../../../images/GP_logo.png';
+import './style.css';
 
 const Header = () => (
     <div id="masthead" className="masthead">

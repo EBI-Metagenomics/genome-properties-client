@@ -28,6 +28,19 @@
   color: #61dafb;
 }
 
+.global-footer {
+  border-top: 3px solid #efeaea;
+  padding-top: 1rem;
+}
+
+.gp-content {
+  padding: 1rem;
+}
+
+.tabs-title > a {
+  color: #1779ba;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
