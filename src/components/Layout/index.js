@@ -18,11 +18,11 @@ const Layout = () => {
                 <section>
                     <div id="main-content-area" className="row">
                         <div className="columns">
-                            <Route path="/" exact={true} component={Home} />
-                            <Route path="/viewer" exact={true} component={Viewer} />
-                            <Route path="/browse" exact={true} component={Browse} />
-                            <Route path="/about" exact={true} component={About} />
-                            <Route path="/genome-property/:accession" exact={true} component={GenomeProperty} />
+                            <Route path={`${process.env.PUBLIC_URL}/`} exact={true} component={Home} />
+                            <Route path={`${process.env.PUBLIC_URL}/viewer`} exact={true} component={Viewer} />
+                            <Route path={`${process.env.PUBLIC_URL}/browse`} exact={true} component={Browse} />
+                            <Route path={`${process.env.PUBLIC_URL}/about`} exact={true} component={About} />
+                            <Route path={`${process.env.PUBLIC_URL}/genome-property/:accession`} exact={true} component={GenomeProperty} />
                         </div>
                     </div>
                 </section>
