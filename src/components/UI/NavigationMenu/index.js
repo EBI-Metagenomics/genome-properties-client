@@ -5,10 +5,10 @@ const NavigationMenu = () => {
     return (
         <nav>
             <ul className={'menu'}>
-                <li><Link className="link" to="/">Home</Link></li>
-                <li><Link className="link" to="/browse">Browse</Link></li>
-                <li><Link className="link" to="/viewer">Viewer</Link></li>
-                <li><Link className="link" to="/about">About</Link></li>
+                <li><Link className="link" to={`${process.env.PUBLIC_URL}/`}>Home</Link></li>
+                <li><Link className="link" to={`${process.env.PUBLIC_URL}/browse`}>Browse</Link></li>
+                <li><Link className="link" to={`${process.env.PUBLIC_URL}/viewer`}>Viewer</Link></li>
+                <li><Link className="link" to={`${process.env.PUBLIC_URL}/about`}>About</Link></li>
             </ul>
         </nav>
     )
