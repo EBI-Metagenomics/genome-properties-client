@@ -7,7 +7,7 @@ import ViewerIcon from "../../../images/viewer_icon.jpg";
 
 const Home = () => {
   return (
-    <section style={{ padding: "16px" }}>
+    <section className="vf-stack">
       <p>
         Genome properties is an annotation system whereby functional attributes
         can be assigned to a genome, based on the presence of a defined set of
@@ -18,38 +18,20 @@ const Home = () => {
         within a property.
       </p>
       <div className="images">
-        <table className="table from-md">
-          <tbody>
-            <tr>
-              <td>
-                <Link
-                  className="link"
-                  to={`${process.env.PUBLIC_URL}/browse`}
-                  alt="Browse Genome Properties"
-                >
-                  <img
-                    src={BrowseIcon}
-                    width=" 400px"
-                    alt="Browse Genome Properties"
-                  />
-                </Link>
-              </td>
-              <td>
-                <Link
-                  className="link"
-                  to={`${process.env.PUBLIC_URL}/viewer`}
-                  alt="Genome Properties Viewer"
-                >
-                  <img
-                    src={ViewerIcon}
-                    width=" 400px"
-                    alt="Genome Properties Viewer"
-                  />
-                </Link>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <Link
+          className="link"
+          to={`${process.env.PUBLIC_URL}/browse`}
+          alt="Browse Genome Properties"
+        >
+          <img src={BrowseIcon} width=" 400px" alt="Browse Genome Properties" />
+        </Link>
+        <Link
+          className="link"
+          to={`${process.env.PUBLIC_URL}/viewer`}
+          alt="Genome Properties Viewer"
+        >
+          <img src={ViewerIcon} width=" 400px" alt="Genome Properties Viewer" />
+        </Link>
       </div>
 
       <p>
@@ -66,20 +48,27 @@ const Home = () => {
         </strong>
       </p>
 
-      <p>
-        Richardson LJ, Rawlings ND, Salazar GA, Almeida A, Haft DR, Ducq G,
-        Sutton GG, Finn RD. Genome properties in 2019: a new companion database
-        to InterPro for the inference of complete functional attributes. Nucleic
-        Acids Res. 2018 Oct. [doi:10.1093/nar/gky1013. PMID: 30364992.]
+      <p className="reference">
+        <span className="authors">
+          Richardson LJ, Rawlings ND, Salazar GA, Almeida A, Haft DR, Ducq G,
+          Sutton GG, Finn RD.
+        </span>{" "}
+        <span className="name">
+          Genome properties in 2019: a new companion database to InterPro for
+          the inference of complete functional attributes.
+        </span>{" "}
+        <span className="journal">Nucleic Acids Research</span> 2018 Oct. [
         <a href="https://doi.org/10.1093/nar/gky1013">
-          doi:10.1093/nar/gky1013. PMID: 30364992.
-        </a>
+          doi:10.1093/nar/gky1013.
+        </a>{" "}
+        <a href="https://pubmed.ncbi.nlm.nih.gov/30364992/">PMID: 30364992.</a>]
       </p>
 
       <p>
-        Genome Properties version: {releaseNoteFixture.version} <br />
+        Genome Properties version: <code>{releaseNoteFixture.version}</code>{" "}
+        <br />
         Dependency on InterProScan version:{" "}
-        {releaseNoteFixture.interProScanVersion}
+        <code>{releaseNoteFixture.interProScanVersion}</code>
       </p>
     </section>
   );

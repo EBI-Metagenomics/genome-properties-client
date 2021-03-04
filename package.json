@@ -1,8 +1,8 @@
 {
   "name": "genome-properties-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "dependencies": {
+  "old-dependencies": {
     "@apollo/react-hooks": "^3.1.3",
     "@babel/core": "7.7.4",
     "@svgr/webpack": "4.3.3",
@@ -74,16 +74,20 @@
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1"
   },
-  "devDependencies": {
+  "old-devDependencies": {
     "classnames": "2.2.6",
     "styles": "^0.2.1"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "old-start": "node scripts/start.js",
+    "old-build": "node scripts/build.js",
+    "test": "echo no tests yet",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "build": "webpack --mode='production'",
+    "start": "webpack  serve --mode='development'"
   },
-  "browserslist": {
+  "old-browserslist": {
     "production": [
       ">0.2%",
       "not dead",
@@ -95,7 +99,7 @@
       "last 1 safari version"
     ]
   },
-  "jest": {
+  "old-jest": {
     "roots": [
       "<rootDir>/src"
     ],
@@ -147,10 +151,45 @@
   },
   "babel": {
     "presets": [
-      "react-app"
+      "@babel/preset-env",
+      [
+        "@babel/preset-react",
+        {
+          "runtime": "automatic"
+        }
+      ]
     ]
   },
-  "eslintConfig": {
+  "old-eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "@babel/core": "7.13.8",
+    "@babel/preset-env": "^7.13.9",
+    "@babel/preset-react": "7.12.13",
+    "babel-loader": "8.2.2",
+    "css-loader": "^5.1.1",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.2.0",
+    "mini-css-extract-plugin": "^1.3.9",
+    "postcss-loader": "^5.0.0",
+    "react-hot-loader": "^4.13.0",
+    "resolve-url-loader": "^3.1.2",
+    "rimraff": "0.0.1-security",
+    "style-loader": "^2.0.0",
+    "webpack": "5.24.2",
+    "webpack-cli": "4.5.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "^4.0.0",
+    "EBI-Icon-fonts": "^1.3.1",
+    "apollo-boost": "^0.4.9",
+    "genome-properties-viewer": "^0.4.0",
+    "graphql": "^15.5.0",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-router-dom": "^5.2.0",
+    "url-loader": "^4.1.1"
   }
 }
