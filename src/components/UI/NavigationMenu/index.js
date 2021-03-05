@@ -12,8 +12,14 @@ const NavigationMenu = ({ location }) => {
     <nav className="vf-navigation vf-navigation--main vf-cluster">
       <ul className="vf-navigation__list | vf-list--inline | vf-cluster__inner">
         {links.map(({ to, label }) => {
-          const activeProp =
-            location.pathname === to ? { "aria-current": "page" } : {};
+          let activeProp = {};
+          if (to === "/") {
+            if (location.pathname === to)
+              activeProp = { "aria-current": "page" };
+          } else {
+            if (location.pathname.startsWith(to))
+              activeProp = { "aria-current": "page" };
+          }
           return (
             <li className="vf-navigation__item" key={to}>
               <Link className="vf-navigation__link" to={to} {...activeProp}>

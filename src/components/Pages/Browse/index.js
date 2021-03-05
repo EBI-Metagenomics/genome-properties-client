@@ -1,5 +1,7 @@
 import React, { Suspense, lazy } from "react";
-import { Link, withRouter, Route, Switch, Redirect } from "react-router-dom";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
+import Loading from "components/Loading";
+import SubMenu from "components/SubMenu";
 
 const Hierarchy = lazy(() => import("./Hierarchy"));
 const ListByType = lazy(() => import("./ListByType"));
@@ -18,23 +20,9 @@ const Browse = ({ location }) => {
   ];
   return (
     <>
-      <nav className="vf-navigation vf-navigation--global vf-cluster">
-        <ul className="vf-navigation__list | vf-list--inline | vf-cluster__inner">
-          {links.map(({ to, label }) => {
-            const activeProp =
-              location.pathname === to ? { "aria-current": "page" } : {};
-            return (
-              <li className="vf-navigation__item" key={to}>
-                <Link className="vf-navigation__link" to={to} {...activeProp}>
-                  {label}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
+      <SubMenu links={links} />
       <br />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <Switch>
           <Route path="/browse/hierarchy" exact={true} component={Hierarchy} />
           {links
@@ -49,29 +37,6 @@ const Browse = ({ location }) => {
             ))}
         </Switch>
       </Suspense>
-      {/* <div className="tabs-content" data-tabs-content="browse-tabs">
-        <div className="tabs-panel is-active" id="hierarchy">
-          <Hierarchy />
-        </div>
-        <div className="tabs-panel" id="pathways">
-          <ListByType type="PATHWAY" />
-        </div>
-        <div className="tabs-panel" id="metapaths">
-          <ListByType type="METAPATH" />
-        </div>
-        <div className="tabs-panel" id="systems">
-          <ListByType type="SYSTEM" />
-        </div>
-        <div className="tabs-panel" id="guilds">
-          <ListByType type="GUILD" />
-        </div>
-        <div className="tabs-panel" id="complexes">
-          <ListByType type="COMPLEX" />
-        </div>
-        <div className="tabs-panel" id="categories">
-          <ListByType type="CATEGORY" />
-        </div>
-      </div> */}
     </>
   );
 };

@@ -3,7 +3,9 @@ import EBIHeader from "../UI/EBIHeader";
 import EBIFooter from "../UI/EBIFooter";
 import Header from "../UI/Header";
 import { Route, Switch, withRouter } from "react-router-dom";
+import Loading from "components/Loading";
 
+import "./style.css";
 const Home = lazy(() => import("../Pages/Home"));
 const Browse = lazy(() => import("../Pages/Browse"));
 const Viewer = lazy(() => import("../Pages/Viewer"));
@@ -15,13 +17,13 @@ const Layout = () => {
     <>
       <EBIHeader />
       <Header />
-      <section className="vf-content">
-        <Suspense fallback={<div>Loading...</div>}>
+      <section className="vf-content main-content">
+        <Suspense fallback={<Loading />}>
           <Switch>
             <Route path={`/`} exact={true} component={Home} />
-            <Route path={`/viewer`} exact={true} component={Viewer} />
+            <Route path={`/viewer`} component={Viewer} />
             <Route path={`/browse`} component={Browse} />
-            <Route path={`/about`} exact={true} component={About} />
+            <Route path={`/about`} component={About} />
             <Route
               path={`/genome-property/:accession`}
               exact={true}

@@ -1,17 +1,36 @@
 .expander {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .search-match {
-    background-color: yellow;
+  background-color: yellow;
 }
 
-.genome-property>.children{
-    margin: 5px;
-    display: none;
+.genome-property > .children {
+  margin: 5px;
+  display: none;
 }
 
-.genome-property.expanded>.children{
-    display: block;
+.genome-property.expanded > .children {
+  display: block;
 }
 
+section.progress {
+  display: flex;
+  width: 100%;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+section.progress table {
+  border: 1px solid gray;
+}
+section.progress table td,
+section.progress table th.vf-table__heading {
+  font-size: 0.8rem;
+  min-width: 3rem;
+}
+
+section.progress table .state {
+  text-align: center;
+}

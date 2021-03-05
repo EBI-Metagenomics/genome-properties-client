@@ -33,7 +33,6 @@ const Home = () => {
           <img src={ViewerIcon} width=" 400px" alt="Genome Properties Viewer" />
         </Link>
       </div>
-
       <p>
         Users can browse the genome properties, which are arranged within a
         hierarchy, examining the specific steps defined within each property.
@@ -41,13 +40,11 @@ const Home = () => {
         they are found/not found in, across a modifiable set of genomes using
         our interactive viewer.
       </p>
-
       <p>
         <strong>
           If you use Genome Properties, please cite this publication:
         </strong>
       </p>
-
       <p className="reference">
         <span className="authors">
           Richardson LJ, Rawlings ND, Salazar GA, Almeida A, Haft DR, Ducq G,
@@ -63,7 +60,6 @@ const Home = () => {
         </a>{" "}
         <a href="https://pubmed.ncbi.nlm.nih.gov/30364992/">PMID: 30364992.</a>]
       </p>
-
       <p>
         Genome Properties version: <code>{releaseNoteFixture.version}</code>{" "}
         <br />

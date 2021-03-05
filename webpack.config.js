@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const kB = 1024;
@@ -24,7 +25,6 @@ module.exports = function (env, options) {
 
     entry: "./src/index.js",
     output: {
-      filename: "main.js",
       path: path.resolve(__dirname, "build"),
       publicPath: "/",
       filename: isEnvProduction
@@ -85,31 +85,9 @@ module.exports = function (env, options) {
       ],
     },
     plugins: [
-      new HtmlWebpackPlugin(
-        Object.assign(
-          {},
-          {
-            // inject: true,
-            template: "public/index.html",
-          },
-          isEnvProduction
-            ? {
-                minify: {
-                  removeComments: true,
-                  collapseWhitespace: true,
-                  removeRedundantAttributes: true,
-                  useShortDoctype: true,
-                  removeEmptyAttributes: true,
-                  removeStyleLinkTypeAttributes: true,
-                  keepClosingSlash: true,
-                  minifyJS: true,
-                  minifyCSS: true,
-                  minifyURLs: true,
-                },
-              }
-            : undefined
-        )
-      ),
+      new HtmlWebpackPlugin({
+        template: "public/index.html",
+      }),
       isEnvProduction &&
         new MiniCssExtractPlugin({
           filename: "css/[name].[contenthash:8].css",
@@ -117,11 +95,20 @@ module.exports = function (env, options) {
         }),
       new webpack.HotModuleReplacementPlugin(),
     ].filter(Boolean),
+    optimization: {
+      minimize: isEnvProduction,
+      minimizer: [
+        // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
+        `...`,
+        new CssMinimizerPlugin(),
+      ],
+    },
     devServer: {
       contentBase: path.join(__dirname, "public/"),
       port: 3000,
       publicPath: "http://localhost:3000/",
       hot: true,
+      historyApiFallback: true,
     },
   };
 };
