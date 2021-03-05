@@ -18,18 +18,10 @@ const Home = () => {
         within a property.
       </p>
       <div className="images">
-        <Link
-          className="link"
-          to={`${process.env.PUBLIC_URL}/browse`}
-          alt="Browse Genome Properties"
-        >
+        <Link className="link" to="/browse" alt="Browse Genome Properties">
           <img src={BrowseIcon} width=" 400px" alt="Browse Genome Properties" />
         </Link>
-        <Link
-          className="link"
-          to={`${process.env.PUBLIC_URL}/viewer`}
-          alt="Genome Properties Viewer"
-        >
+        <Link className="link" to="/viewer" alt="Genome Properties Viewer">
           <img src={ViewerIcon} width=" 400px" alt="Genome Properties Viewer" />
         </Link>
       </div>

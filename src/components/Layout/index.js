@@ -4,6 +4,7 @@ import EBIFooter from "../UI/EBIFooter";
 import Header from "../UI/Header";
 import { Route, Switch, withRouter } from "react-router-dom";
 import Loading from "components/Loading";
+import CookieBanner from "components/CookieBanner";
 
 import "./style.css";
 const Home = lazy(() => import("../Pages/Home"));
@@ -15,24 +16,27 @@ const GenomeProperty = lazy(() => import("../Pages/GenomeProperty"));
 const Layout = () => {
   return (
     <>
-      <EBIHeader />
-      <Header />
-      <section className="vf-content main-content">
-        <Suspense fallback={<Loading />}>
-          <Switch>
-            <Route path={`/`} exact={true} component={Home} />
-            <Route path={`/viewer`} component={Viewer} />
-            <Route path={`/browse`} component={Browse} />
-            <Route path={`/about`} component={About} />
-            <Route
-              path={`/genome-property/:accession`}
-              exact={true}
-              component={GenomeProperty}
-            />
-          </Switch>
-        </Suspense>
-      </section>
-      <EBIFooter />
+      <div>
+        <EBIHeader />
+        <Header />
+        <section className="vf-content main-content">
+          <Suspense fallback={<Loading />}>
+            <Switch>
+              <Route path={`/`} exact={true} component={Home} />
+              <Route path={`/viewer`} component={Viewer} />
+              <Route path={`/browse`} component={Browse} />
+              <Route path={`/about`} component={About} />
+              <Route
+                path={`/genome-property/:accession`}
+                exact={true}
+                component={GenomeProperty}
+              />
+            </Switch>
+          </Suspense>
+        </section>
+        <EBIFooter />
+      </div>
+      <CookieBanner />
     </>
   );
 };

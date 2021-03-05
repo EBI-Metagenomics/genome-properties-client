@@ -1,0 +1,4 @@
+{
+  "api": "http://localhost:8000/graphql/",
+  "website": "http://localhost:3000/"
+}

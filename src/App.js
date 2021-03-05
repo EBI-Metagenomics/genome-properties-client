@@ -8,9 +8,10 @@ import "./App.css";
 
 import Layout from "./components/Layout";
 import { BrowserRouter } from "react-router-dom";
+import config from "config.json";
 
 const client = new ApolloClient({
-  uri: "http://localhost:8000/graphql/",
+  uri: config.api,
   // uri: 'https://wp-np3-af.ebi.ac.uk/gp/api/',
 });
 
