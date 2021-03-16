@@ -1,15 +1,11 @@
 import React, { useEffect } from "react";
 import gpv from "genome-properties-viewer";
 import "genome-properties-viewer/gp-style.css";
-// import $ from "jquery";
+import config from "config.json";
 
-// const GenPropViewer = ({gpHierarchy}) => {
 const GenPropViewer = () => {
-  const github =
-    "https://raw.githubusercontent.com/ebi-pf-team/genome-properties/master";
+  const github = config.github;
   useEffect(() => {
-    // $(document).foundation();
-
     let d3 = gpv.d3,
       GenomePropertiesViewer = gpv.GenomePropertiesViewer,
       viewer = new GenomePropertiesViewer({
@@ -20,9 +16,9 @@ const GenPropViewer = () => {
         // hierarchy_path: gpHierarchy,
         server_tax: `${github}/flatfiles/taxonomy.json`,
         model_species_path: `${github}/flatfiles/gp_assignments/json/JSON_MERGED`,
-        height: 400,
         cell_side: 20,
-        margin: { top: 180, right: 50, bottom: 10, left: 40 },
+        height: 400,
+        template_link_to_GP_page: `${config.website}/genome-property/{}`,
       });
     window.viewer = viewer;
     let showTaxonomy = true;

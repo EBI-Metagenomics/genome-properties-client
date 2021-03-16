@@ -41,4 +41,4 @@ const Layout = () => {
   );
 };
 
-export default withRouter(Layout);
+export default Layout;

@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 
 import SubMenu from "components/SubMenu";
 import Loading from "components/Loading";
@@ -32,25 +32,9 @@ const gqlTod3 = (node) => {
   }
 };
 
-const Viewer = () => {
+const Viewer = ({ location }) => {
   if (location.pathname === "/viewer") return <Redirect to="/viewer/use" />;
 
-  // useEffect(() => {
-  //     $(document).foundation();
-  // },[]);
-
-  // const accession = "GenProp0065";
-  // const { loading, error, data } = useQuery(HIERARCHY, {
-  //     variables: { accession: accession}
-  // });
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error! </p>;
-
-  // const hierarchyJson = {
-  //     id: data.genomeProperties.edges[0].node.accession,
-  //     name : data.genomeProperties.edges[0].node.description ,
-  //     children: gqlTod3(data.genomeProperties.edges[0].node)
-  // };
   const links = [
     { to: "/viewer/use", label: "Use" },
     { to: "/viewer/instructions", label: "Instructions" },
@@ -75,4 +59,4 @@ const Viewer = () => {
   );
 };
 
-export default Viewer;
+export default withRouter(Viewer);

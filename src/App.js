@@ -18,7 +18,7 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <BrowserRouter>
+      <BrowserRouter basename={config.basename}>
         <Layout />
       </BrowserRouter>
     </ApolloProvider>
