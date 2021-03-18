@@ -1,55 +1,67 @@
-import React, {useEffect} from 'react';
-import $ from "jquery";
+import React, { Suspense, lazy } from "react";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 
-import AboutGenomeProperties from "./Tabs/AboutGenomeProperties";
-import Calculating from "./Tabs/Calculating";
-import Funding from "./Tabs/Funding";
-import Contributing from "./Tabs/Contributing";
-import Documentation from "./Tabs/Documentation";
-import Contact from "./Tabs/Contact";
-import ReleaseNotes from "./Tabs/ReleaseNotes";
+import SubMenu from "components/SubMenu";
+import Loading from "components/Loading";
 
-const About = () => {
-    useEffect(() => {
-        $(document).foundation();
-    },[]);
-    return (
-        <>
-            <ul className="tabs" data-tabs id="about-tabs">
-                <li className="tabs-title is-active"><a href="#about" >About</a></li>
-                <li className="tabs-title"><a href="#calculating">Calculating</a></li>
-                <li className="tabs-title"><a href="#funding">Funding</a></li>
-                <li className="tabs-title"><a href="#contributing">Contributing</a></li>
-                <li className="tabs-title"><a href="#documentation">Help & Documentation</a></li>
-                <li className="tabs-title"><a href="#contact">Contact</a></li>
-                <li className="tabs-title"><a href="#release_notes">Release notes</a></li>
-            </ul>
+const AboutGenomeProperties = lazy(() =>
+  import("./Tabs/AboutGenomeProperties")
+);
+const Calculating = lazy(() => import("./Tabs/Calculating"));
+const Funding = lazy(() => import("./Tabs/Funding"));
+const Contributing = lazy(() => import("./Tabs/Contributing"));
+const Documentation = lazy(() => import("./Tabs/Documentation"));
+const Contact = lazy(() => import("./Tabs/Contact"));
+const ReleaseNotes = lazy(() => import("./Tabs/ReleaseNotes"));
 
-            <div className="tabs-content" data-tabs-content="about-tabs">
-                <div className="tabs-panel is-active" id="about">
-                    <AboutGenomeProperties />
-                </div>
-                <div className="tabs-panel" id="calculating">
-                    <Calculating />
-                </div>
-                <div className="tabs-panel" id="funding">
-                    <Funding/>
-                </div>
-                <div className="tabs-panel" id="contributing">
-                    <Contributing/>
-                </div>
-                <div className="tabs-panel" id="documentation">
-                    <Documentation/>
-                </div>
-                <div className="tabs-panel" id="contact">
-                    <Contact/>
-                </div>
-                <div className="tabs-panel" id="release_notes">
-                    <ReleaseNotes/>
-                </div>
-            </div>
-        </>
-    );
+const About = ({ location }) => {
+  if (location.pathname === "/about") return <Redirect to="/about/about" />;
+  const links = [
+    { to: "/about/about", label: "About" },
+    { to: "/about/calculating", label: "Calculating" },
+    { to: "/about/funding", label: "Funding" },
+    { to: "/about/contributing", label: "Contributing" },
+    { to: "/about/documentation", label: "Help & Documentation" },
+    { to: "/about/contact", label: "Contact" },
+    { to: "/about/release_notes", label: "Release notes" },
+  ];
+  return (
+    <>
+      <SubMenu links={links} />
+      <br />
+      <Suspense fallback={<Loading />}>
+        <Switch>
+          <Route
+            path="/about/about"
+            exact={true}
+            component={AboutGenomeProperties}
+          />
+          <Route
+            path="/about/calculating"
+            exact={true}
+            component={Calculating}
+          />
+          <Route path="/about/funding" exact={true} component={Funding} />
+          <Route
+            path="/about/contributing"
+            exact={true}
+            component={Contributing}
+          />
+          <Route
+            path="/about/documentation"
+            exact={true}
+            component={Documentation}
+          />
+          <Route path="/about/contact" exact={true} component={Contact} />
+          <Route
+            path="/about/release_notes"
+            exact={true}
+            component={ReleaseNotes}
+          />
+        </Switch>
+      </Suspense>
+    </>
+  );
 };
 
-export default About;
+export default withRouter(About);

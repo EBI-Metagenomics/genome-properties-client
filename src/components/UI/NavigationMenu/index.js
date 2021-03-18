@@ -1,17 +1,36 @@
-import React from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import React from "react";
+import { Link, withRouter } from "react-router-dom";
 
-const NavigationMenu = () => {
-    return (
-        <nav>
-            <ul className={'menu'}>
-                <li><Link className="link" to={`${process.env.PUBLIC_URL}/`}>Home</Link></li>
-                <li><Link className="link" to={`${process.env.PUBLIC_URL}/browse`}>Browse</Link></li>
-                <li><Link className="link" to={`${process.env.PUBLIC_URL}/viewer`}>Viewer</Link></li>
-                <li><Link className="link" to={`${process.env.PUBLIC_URL}/about`}>About</Link></li>
-            </ul>
-        </nav>
-    )
+const NavigationMenu = ({ location }) => {
+  const links = [
+    { to: "/", label: "Home" },
+    { to: "/browse", label: "Browse" },
+    { to: "/viewer", label: "Viewer" },
+    { to: "/about", label: "About" },
+  ];
+  return (
+    <nav className="vf-navigation vf-navigation--main vf-cluster">
+      <ul className="vf-navigation__list | vf-list--inline | vf-cluster__inner">
+        {links.map(({ to, label }) => {
+          let activeProp = {};
+          if (to === "/") {
+            if (location.pathname === to)
+              activeProp = { "aria-current": "page" };
+          } else {
+            if (location.pathname.startsWith(to))
+              activeProp = { "aria-current": "page" };
+          }
+          return (
+            <li className="vf-navigation__item" key={to}>
+              <Link className="vf-navigation__link" to={to} {...activeProp}>
+                {label}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
 };
 
-export default withRouter(NavigationMenu)
+export default withRouter(NavigationMenu);

@@ -1,8 +1,24 @@
 .images {
-    margin: 10px auto;
+  margin: 10px auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .table {
-    width:  100%;
-    text-align:  center;
+  width: 100%;
+  text-align: center;
+}
+
+.reference .authors {
+  font-style: italic;
+  font-weight: 300;
+}
+.reference .name {
+  font-weight: 400;
+}
+.reference .journal {
+  font-style: italic;
+  font-weight: 200;
 }

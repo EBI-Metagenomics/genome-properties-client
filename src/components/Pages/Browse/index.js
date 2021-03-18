@@ -1,49 +1,44 @@
-import React, {useEffect} from 'react';
-import $ from "jquery";
-import Hierarchy from "./Hierarchy";
-import ListByType from "./ListByType";
+import React, { Suspense, lazy } from "react";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
+import Loading from "components/Loading";
+import SubMenu from "components/SubMenu";
 
-const Browse = () => {
-    useEffect(() => {
-        $(document).foundation();
-    },[]);
-    return (
-        <>
-            <ul className="tabs" data-tabs id="browse-tabs">
-                <li className="tabs-title is-active"><a href="#hierarchy" >Hierarchy</a></li>
-                <li className="tabs-title"><a href="#pathways">Pathways</a></li>
-                <li className="tabs-title"><a href="#metapaths">Metapaths</a></li>
-                <li className="tabs-title"><a href="#systems">Systems</a></li>
-                <li className="tabs-title"><a href="#guilds">Guilds</a></li>
-                <li className="tabs-title"><a href="#complexes">Complexes</a></li>
-                <li className="tabs-title"><a href="#categories">Categories</a></li>
-            </ul>
+const Hierarchy = lazy(() => import("./Hierarchy"));
+const ListByType = lazy(() => import("./ListByType"));
 
-            <div className="tabs-content" data-tabs-content="browse-tabs">
-                <div className="tabs-panel is-active" id="hierarchy">
-                    <Hierarchy />
-                </div>
-                <div className="tabs-panel" id="pathways">
-                    <ListByType type="PATHWAY"/>
-                </div>
-                <div className="tabs-panel" id="metapaths">
-                    <ListByType type="METAPATH"/>
-                </div>
-                <div className="tabs-panel" id="systems">
-                    <ListByType type="SYSTEM"/>
-                </div>
-                <div className="tabs-panel" id="guilds">
-                    <ListByType type="GUILD"/>
-                </div>
-                <div className="tabs-panel" id="complexes">
-                    <ListByType type="COMPLEX"/>
-                </div>
-                <div className="tabs-panel" id="categories">
-                    <ListByType type="CATEGORY"/>
-                </div>
-            </div>
-        </>
-        );
+const Browse = ({ location }) => {
+  if (location.pathname === "/browse")
+    return <Redirect to="/browse/hierarchy" />;
+  const links = [
+    { to: "/browse/hierarchy", label: "Hierarchy" },
+    { to: "/browse/pathways", label: "Pathways", type: "PATHWAY" },
+    { to: "/browse/metapaths", label: "Metapaths", type: "METAPATH" },
+    { to: "/browse/systems", label: "Systems", type: "SYSTEM" },
+    { to: "/browse/guilds", label: "Guilds", type: "GUILD" },
+    { to: "/browse/complexes", label: "Complexes", type: "COMPLEX" },
+    { to: "/browse/categories", label: "Categories", type: "CATEGORY" },
+  ];
+  return (
+    <>
+      <SubMenu links={links} />
+      <br />
+      <Suspense fallback={<Loading />}>
+        <Switch>
+          <Route path="/browse/hierarchy" exact={true} component={Hierarchy} />
+          {links
+            .filter(({ type }) => !!type)
+            .map(({ to, type }) => (
+              <Route
+                key={to}
+                path={to}
+                exact={true}
+                component={() => <ListByType type={type} />}
+              />
+            ))}
+        </Switch>
+      </Suspense>
+    </>
+  );
 };
 
-export default Browse;
+export default withRouter(Browse);

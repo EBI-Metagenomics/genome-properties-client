@@ -1,0 +1,4 @@
+.vf-navigation__item [aria-current] {
+  color: ui-color(black);
+  text-shadow: 1px 0 0 currentColor;
+}
