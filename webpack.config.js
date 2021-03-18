@@ -66,6 +66,14 @@ module.exports = function (env, options) {
           use: [
             isEnvProduction ? MiniCssExtractPlugin.loader : "style-loader",
             "css-loader",
+            {
+              loader: "postcss-loader",
+              options: {
+                postcssOptions: {
+                  plugins: [["postcss-preset-env", { stage: 0 }]],
+                },
+              },
+            },
           ],
           sideEffects: true,
         },

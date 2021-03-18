@@ -24,13 +24,14 @@ section.progress {
 
 section.progress table {
   border: 1px solid gray;
-}
-section.progress table td,
-section.progress table th.vf-table__heading {
-  font-size: 0.8rem;
-  min-width: 3rem;
-}
 
-section.progress table .state {
-  text-align: center;
+  & td,
+  & th.vf-table__heading {
+    font-size: 0.8rem;
+    min-width: 3rem;
+  }
+
+  & .state {
+    text-align: center;
+  }
 }
