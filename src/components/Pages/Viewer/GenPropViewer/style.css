@@ -1,0 +1,37 @@
+@media (max-width: 1000px) {
+  .top-controllers > div ul li {
+    & label {
+      font-size: 0.8em;
+    }
+    & .color {
+      width: 16px;
+    }
+  }
+}
+
+div.top-controllers {
+  & > div {
+    margin: 0;
+  }
+
+  & div.gp-legends ul {
+    list-style-type: none;
+
+    & li {
+      display: flex;
+      width: 100%;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: flex-end;
+
+      & .color {
+        flex-shrink: 0;
+        transition: width 0.5s;
+
+        & div {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}

@@ -1,8 +1,34 @@
 .images {
-    margin: 10px auto;
+  margin: 10px auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+
+  & img {
+    box-shadow: 0px 0px 1px 0px lightblue;
+    transition: box-shadow 0.5s;
+  }
+  & img:hover {
+    box-shadow: -1px -1px 4px 2px lightblue;
+  }
 }
 
 .table {
-    width:  100%;
-    text-align:  center;
+  width: 100%;
+  text-align: center;
+}
+
+.reference {
+  & .authors {
+    font-style: italic;
+    font-weight: 300;
+  }
+  & .name {
+    font-weight: 400;
+  }
+  & .journal {
+    font-style: italic;
+    font-weight: 200;
+  }
 }
