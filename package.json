@@ -6,8 +6,8 @@
     "test": "echo no tests yet",
     "clean": "rimraf build",
     "prebuild": "npm run clean",
-    "build": "webpack --mode='production'",
-    "start": "webpack  serve --mode='development'"
+    "build": "webpack --mode=production",
+    "start": "webpack  serve --mode=development"
   },
   "babel": {
     "presets": [
