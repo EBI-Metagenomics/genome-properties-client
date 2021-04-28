@@ -2,5 +2,5 @@
   "api": "http://wp-np3-af.ebi.ac.uk/gp/api/",
   "website": "http://wp-np3-ef.ebi.ac.uk/genomeproperties",
   "github": "https://raw.githubusercontent.com/ebi-pf-team/genome-properties/master",
-  "basename": "/genomeproperties"
+  "basename": "/"
 }

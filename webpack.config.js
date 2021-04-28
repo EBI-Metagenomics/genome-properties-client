@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const config = require("./src/config.json");
+
 const kB = 1024;
 const imageInlineSizeLimit = 10000;
 
@@ -26,7 +28,7 @@ module.exports = function (env, options) {
     entry: "./src/index.js",
     output: {
       path: path.resolve(__dirname, "build"),
-      publicPath: "/",
+      publicPath: config.basename || '/',
       filename: isEnvProduction
         ? "js/[name].[contenthash:8].js"
         : "js/bundle.js",
