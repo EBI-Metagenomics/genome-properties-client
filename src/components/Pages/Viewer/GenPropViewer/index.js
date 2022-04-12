@@ -22,6 +22,7 @@ const GenPropViewer = () => {
       cell_side: 20,
       height: 400,
       template_link_to_GP_page: `${config.website}/genome-property/{}`,
+      gp_server: config.gp_server,
     });
     window.viewer = viewer;
     viewer.gp_taxonomy.on("taxonomyLoaded", () => {
