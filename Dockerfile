@@ -20,6 +20,7 @@ RUN VITE_API_URL="VITE_API_URL_PLACEHOLDER" \
 FROM nginx:stable-alpine AS runtime
 
 COPY --from=build --chown=nginx:nginx /app/dist /usr/share/nginx/html
+COPY --from=build --chown=nginx:nginx /app/dist /usr/share/nginx/html/genomeproperties
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 

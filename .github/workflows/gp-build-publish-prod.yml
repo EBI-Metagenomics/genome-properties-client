@@ -30,7 +30,7 @@ jobs:
       - name: Build the React Docker image
         run: |
           docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/genome-properties-client:${{ env.IMAGE_TAG }} \
-            --build-arg VITE_BASENAME=/genomeproperties \
+            --build-arg VITE_BASENAME=/genomeproperties/ \
             -f ./Dockerfile .
 
       - name: Push the React Docker image
