@@ -1,8 +1,7 @@
-import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import { BASIC_HIERARCHY, HIERARCHY } from "../../../gqlQueries";
+import { useQuery } from "@apollo/client";
+import { BASIC_HIERARCHY, HIERARCHY } from "../../../../graphql/queries";
 import { Link } from "react-router-dom";
-import Loading from "components/Loading";
+import Loading from "../../../Loading";
 
 import "./style.css";
 
@@ -55,7 +54,7 @@ const searchHierarchy = (e) => {
     .forEach((e) => e.classList.remove("search-match"));
   if (term.trim() !== "")
     document
-      .querySelectorAll(`span.genprop-label[text*="${term}"]`)
+      .querySelectorAll(`span.genprop-label[data-text*="${term}"]`)
       .forEach((e) => {
         e.classList.add("search-match");
         expandParents(e.parentNode.parentNode);
@@ -87,7 +86,7 @@ const renderHierarchyFromData = (node, level, expanded = false) => {
 
           <span
             className="genprop-label"
-            text={`${node.accession} ${node.description}`}
+            data-text={`${node.accession} ${node.description}`}
           >
             <Link to={`/genome-property/${node.accession}`}>
               {node.accession}
@@ -139,7 +138,7 @@ const Hierarchy = () => {
         <table className="vf-table vf-table--tight">
           <thead className="vf-table__header">
             <tr className="vf-table__row">
-              <th className="vf-table__heading" scope="col" colSpan="2">
+              <th className="vf-table__heading" scope="col" colSpan={2}>
                 Loading progress
               </th>
             </tr>

@@ -1,8 +1,8 @@
-import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import { GENOME_PROPERTY } from "../gqlQueries";
-import { Link } from "react-router-dom";
-import Loading from "components/Loading";
+import { useQuery } from "@apollo/client";
+import { Fragment } from "react";
+import { Link, useParams } from "react-router-dom";
+import { GENOME_PROPERTY } from "../../graphql/queries";
+import Loading from "../Loading";
 
 const renderDBLink = (id, link, others) => {
   switch (id) {
@@ -95,8 +95,8 @@ const renderEvidenceLink = (id) => {
   else return null;
 };
 
-const GenomeProperty = ({ match }) => {
-  const accession = match.params.accession;
+const GenomeProperty = () => {
+  const { accession } = useParams();
   const { loading, error, data } = useQuery(GENOME_PROPERTY, {
     variables: { accession: accession },
   });
@@ -179,7 +179,7 @@ const GenomeProperty = ({ match }) => {
           >
             <tbody>
               <tr style={{ backgroundColor: "#ddd" }}>
-                <th width="30%">Property</th>
+                <th style={{ width: "30%" }}>Property</th>
                 <th style={{ textAlign: "left" }}>Accession</th>
               </tr>
 
@@ -217,7 +217,7 @@ const GenomeProperty = ({ match }) => {
           >
             <tbody>
               <tr style={{ backgroundColor: "#ddd" }}>
-                <th width="30%">Step</th>
+                <th style={{ width: "30%" }}>Step</th>
                 <th style={{ textAlign: "left" }}>Evidence</th>
                 <th style={{ textAlign: "left" }}>Go Terms</th>
               </tr>
@@ -230,12 +230,12 @@ const GenomeProperty = ({ match }) => {
                   gpstepevidenceiprSet,
                 } = edge.node;
                 return (
-                  <React.Fragment key={`${stepId}-${stepNumber}`}>
+                  <Fragment key={`${stepId}-${stepNumber}`}>
                     {gpstepevidenceiprSet.edges.map((stepEdge, i) => {
                       const gpToIpr = stepEdge.node;
                       const iprToGo = gpToIpr.iprsteptogoSet?.edges[0]?.node;
                       return (
-                        <React.Fragment key={`${stepId}-${stepNumber}-${i}`}>
+                        <Fragment key={`${stepId}-${stepNumber}-${i}`}>
                           {i > 0 ? (
                             <tr style={{ backgroundColor: "white" }}>
                               <td>
@@ -277,10 +277,10 @@ const GenomeProperty = ({ match }) => {
                               </td>
                             </tr>
                           )}
-                        </React.Fragment>
+                        </Fragment>
                       );
                     })}
-                  </React.Fragment>
+                  </Fragment>
                 );
               })}
             </tbody>

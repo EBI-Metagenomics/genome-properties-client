@@ -1,27 +1,24 @@
+# Genome Properties client
 
-## Available Scripts
+React 18 + TypeScript + Vite UI for Genome Properties.
 
-In the project directory, you can run:
+## Local setup
 
-### `npm start`
+```bash
+nvm use 22
+npm install
+cp .env.example .env
+npm start
+```
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The app expects the GraphQL API at `VITE_API_URL` (default `http://127.0.0.1:8000/graphql/`).
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Docker
 
-### `npm run test`
+Runtime configuration is injected from Kubernetes env vars via `docker-entrypoint.sh` (same placeholder pattern as METT):
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `VITE_API_URL`
+- `VITE_WEBSITE`
+- `VITE_GITHUB`
+- `VITE_GP_SERVER`
+- `VITE_BASENAME` (build arg)

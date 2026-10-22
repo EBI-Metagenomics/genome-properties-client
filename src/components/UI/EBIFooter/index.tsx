@@ -1,4 +1,3 @@
-import React from "react";
 
 const EBIFooter = () => (
   <footer className="vf-footer" data-vf-google-analytics-region="embl-footer">

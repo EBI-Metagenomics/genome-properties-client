@@ -1,18 +1,13 @@
-import React, { useEffect } from "react";
-
-import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-hooks";
-
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { BrowserRouter } from "react-router-dom";
 import "EBI-Icon-fonts/fonts.css";
 import "./App.css";
-
 import Layout from "./components/Layout";
-import { BrowserRouter } from "react-router-dom";
-import config from "config.json";
+import { config } from "./config";
 
 const client = new ApolloClient({
   uri: config.api,
-  // uri: 'https://wp-np3-af.ebi.ac.uk/gp/api/',
+  cache: new InMemoryCache(),
 });
 
 function App() {

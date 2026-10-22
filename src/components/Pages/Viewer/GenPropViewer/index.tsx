@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gpv from "genome-properties-viewer";
 import Select from "react-select";
 
 import "genome-properties-viewer/gp-style.css";
 import "./style.css";
-import config from "config.json";
+import { config } from "../../../../config";
 
 const GenPropViewer = () => {
-  const github = config.github; /** @global */
+  const github = config.github;
+  const viewerRef = useRef<any>(null);
   const [options, setOptions] = useState([]);
   useEffect(() => {
-    const { d3, GenomePropertiesViewer, uploadLocalGPFile } = gpv;
+    const { d3, GenomePropertiesViewer, uploadLocalGPFile } = gpv as any;
     const viewer = new GenomePropertiesViewer({
       element_selector: "#gp-viewer",
       controller_element_selector: "#gp-selector",
@@ -22,8 +23,9 @@ const GenPropViewer = () => {
       cell_side: 20,
       height: 400,
       template_link_to_GP_page: `${config.website}/genome-property/{}`,
-      gp_server: config.gp_server,
+      gp_server: config.gpServer,
     });
+    viewerRef.current = viewer;
     window.viewer = viewer;
     viewer.gp_taxonomy.on("taxonomyLoaded", () => {
       setOptions(
@@ -63,11 +65,11 @@ const GenPropViewer = () => {
   const handleFileChange = (evt) => {
     const oFiles = evt.target.files;
     for (let i = 0; i < oFiles.length; i++) {
-      gpv.uploadLocalGPFile(viewer, oFiles[i]);
+      (gpv as any).uploadLocalGPFile(viewerRef.current, oFiles[i]);
     }
   };
   const handleSelectChange = (optionSelected) => {
-    viewer.gp_taxonomy.dipatcher.call(
+    viewerRef.current.gp_taxonomy.dipatcher.call(
       "spaciesRequested",
       this,
       optionSelected.value

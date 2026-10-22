@@ -1,7 +1,7 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export const BY_TYPE = gql`
-  query($type: String!) {
+  query GenomePropertiesByType($type: String!) {
     genomeProperties(type: $type) {
       edges {
         node {
@@ -14,7 +14,7 @@ export const BY_TYPE = gql`
 `;
 
 export const BASIC_HIERARCHY = gql`
-  query($accession: String!) {
+  query BasicHierarchy($accession: String!) {
     genomeProperties(accession: $accession) {
       edges {
         node {
@@ -59,7 +59,7 @@ export const BASIC_HIERARCHY = gql`
 `;
 
 export const HIERARCHY = gql`
-  query($accession: String!) {
+  query FullHierarchy($accession: String!) {
     genomeProperties(accession: $accession) {
       edges {
         node {
@@ -136,7 +136,7 @@ export const HIERARCHY = gql`
 `;
 
 export const GENOME_PROPERTY = gql`
-  query($accession: String!) {
+  query GenomePropertyDetail($accession: String!) {
     genomeProperties(accession: $accession) {
       edges {
         node {

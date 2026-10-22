@@ -1,7 +1,7 @@
-import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const NavigationMenu = ({ location }) => {
+const NavigationMenu = () => {
+  const location = useLocation();
   const links = [
     { to: "/", label: "Home" },
     { to: "/browse", label: "Browse" },
@@ -14,11 +14,9 @@ const NavigationMenu = ({ location }) => {
         {links.map(({ to, label }) => {
           let activeProp = {};
           if (to === "/") {
-            if (location.pathname === to)
-              activeProp = { "aria-current": "page" };
-          } else {
-            if (location.pathname.startsWith(to))
-              activeProp = { "aria-current": "page" };
+            if (location.pathname === to) activeProp = { "aria-current": "page" };
+          } else if (location.pathname.startsWith(to)) {
+            activeProp = { "aria-current": "page" };
           }
           return (
             <li className="vf-navigation__item" key={to}>
@@ -33,4 +31,4 @@ const NavigationMenu = ({ location }) => {
   );
 };
 
-export default withRouter(NavigationMenu);
+export default NavigationMenu;

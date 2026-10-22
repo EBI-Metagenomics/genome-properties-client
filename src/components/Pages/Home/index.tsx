@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import releaseNoteFixture from "../releaseNoteFixture";
 import "./style.css";
@@ -27,10 +26,10 @@ const Home = () => {
         within a property.
       </p>
       <div className="images">
-        <Link className="link" to="/browse" alt="Browse Genome Properties">
+        <Link className="link" to="/browse" title="Browse Genome Properties">
           <img src={BrowseIcon} width=" 400px" alt="Browse Genome Properties" />
         </Link>
-        <Link className="link" to="/viewer" alt="Genome Properties Viewer">
+        <Link className="link" to="/viewer" title="Genome Properties Viewer">
           <img src={ViewerIcon} width=" 400px" alt="Genome Properties Viewer" />
         </Link>
       </div>
