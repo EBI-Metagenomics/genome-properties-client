@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
 import "EBI-Icon-fonts/fonts.css";
 import "./App.css";
@@ -6,7 +6,7 @@ import Layout from "./components/Layout";
 import { config } from "./config";
 
 const client = new ApolloClient({
-  uri: config.api,
+  link: new HttpLink({ uri: config.api }),
   cache: new InMemoryCache(),
 });
 

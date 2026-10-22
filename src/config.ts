@@ -17,3 +17,16 @@ export const config = {
     "https://wwwdev.ebi.ac.uk/interpro/genomeproperties/cgi-bin/test.pl",
   basename: routerBasename(import.meta.env.VITE_BASENAME),
 };
+
+export function ensureAppBasename(): void {
+  const basename = config.basename;
+  if (basename === "/") {
+    return;
+  }
+  const { pathname, search, hash } = window.location;
+  if (pathname === basename || pathname.startsWith(`${basename}/`)) {
+    return;
+  }
+  const suffix = pathname === "/" ? "/" : pathname;
+  window.location.replace(`${basename}${suffix}${search}${hash}`);
+}

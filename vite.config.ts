@@ -10,9 +10,12 @@ function publicBase(raw: string | undefined): string {
   return base.endsWith("/") ? base : `${base}/`;
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react()],
   base: publicBase(process.env.VITE_BASENAME),
+  define: {
+    "globalThis.__DEV__": JSON.stringify(mode !== "production"),
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
@@ -26,4 +29,4 @@ export default defineConfig({
     outDir: "dist",
     sourcemap: true,
   },
-});
+}));
