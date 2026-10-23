@@ -6,6 +6,10 @@ function routerBasename(raw: string | undefined): string {
   return value.replace(/\/+$/, "") || "/";
 }
 
+function envFlag(raw: string | undefined): boolean {
+  return ["true", "1", "yes"].includes((raw || "").trim().toLowerCase());
+}
+
 export const config = {
   api: import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/graphql/",
   website: import.meta.env.VITE_WEBSITE || "http://localhost:3000",
@@ -16,6 +20,7 @@ export const config = {
     import.meta.env.VITE_GP_SERVER ||
     "https://wwwdev.ebi.ac.uk/interpro/genomeproperties/cgi-bin/test.pl",
   basename: routerBasename(import.meta.env.VITE_BASENAME),
+  showServiceDisruption: envFlag(import.meta.env.VITE_SHOW_SERVICE_DISRUPTION),
 };
 
 export function ensureAppBasename(): void {

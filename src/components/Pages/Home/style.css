@@ -1,4 +1,4 @@
-/* START: Service disruption banner - remove when service is restored */
+/* Shown when VITE_SHOW_SERVICE_DISRUPTION is true */
 .service-disruption-banner {
   background-color: #fff3cd;
   border: 1px solid #ffc107;
@@ -35,7 +35,6 @@
 .disruption-message a:hover {
   color: #002752;
 }
-/* END: Service disruption banner */
 
 .images {
   margin: 10px auto;

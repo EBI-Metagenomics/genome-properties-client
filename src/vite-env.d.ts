@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly VITE_WEBSITE: string;
   readonly VITE_GITHUB: string;
   readonly VITE_GP_SERVER: string;
+  readonly VITE_SHOW_SERVICE_DISRUPTION: string;
 }
 
 interface ImportMeta {

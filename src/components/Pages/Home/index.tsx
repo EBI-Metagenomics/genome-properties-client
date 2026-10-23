@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { config } from "../../../config";
 import releaseNoteFixture from "../releaseNoteFixture";
 import "./style.css";
 import BrowseIcon from "../../../images/browse_icon.jpg";
@@ -7,15 +8,21 @@ import ViewerIcon from "../../../images/viewer_icon.jpg";
 const Home = () => {
   return (
     <section className="vf-stack">
-      <div className="service-disruption-banner">
-        <span className="disruption-badge">Service Disruption</span>
-        <span className="disruption-message">
-          We are currently experiencing service disruptions.{" "}
-          <a href="https://genomes-properties.cronitorstatus.com/" target="_blank" rel="noopener noreferrer">
-            View status page
-          </a>
-        </span>
-      </div>
+      {config.showServiceDisruption && (
+        <div className="service-disruption-banner">
+          <span className="disruption-badge">Service Disruption</span>
+          <span className="disruption-message">
+            We are currently experiencing service disruptions.{" "}
+            <a
+              href="https://genomes-properties.cronitorstatus.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View status page
+            </a>
+          </span>
+        </div>
+      )}
       <p>
         Genome properties is an annotation system whereby functional attributes
         can be assigned to a genome, based on the presence of a defined set of

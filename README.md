@@ -21,4 +21,5 @@ Runtime configuration is injected from Kubernetes env vars via `docker-entrypoin
 - `VITE_WEBSITE`
 - `VITE_GITHUB`
 - `VITE_GP_SERVER`
+- `VITE_SHOW_SERVICE_DISRUPTION` (`true` / `false`)
 - `VITE_BASENAME` (build arg)
