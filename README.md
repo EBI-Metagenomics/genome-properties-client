@@ -11,7 +11,7 @@ cp .env.example .env
 npm start
 ```
 
-The app expects the GraphQL API at `VITE_API_URL` (default `http://127.0.0.1:8000/graphql/`).
+The app expects the REST API at `VITE_API_URL` (default `http://127.0.0.1:8000`).
 
 ## Docker
 

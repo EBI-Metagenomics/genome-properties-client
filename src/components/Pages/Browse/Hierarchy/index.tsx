@@ -1,27 +1,31 @@
-import { useQuery } from "@apollo/client";
-import { BASIC_HIERARCHY, HIERARCHY } from "../../../../graphql/queries";
+import type { ChangeEvent, MouseEvent } from "react";
 import { Link } from "react-router-dom";
+import { useApi, type HierarchyNode } from "../../../../api";
 import Loading from "../../../Loading";
 
 import "./style.css";
 
-const toggleGenPropContent = (e) => {
-  if (e.target.parentNode.parentNode.classList.contains("expanded")) {
-    collapse(e.target);
+const toggleGenPropContent = (e: MouseEvent<HTMLSpanElement>) => {
+  const row = e.currentTarget.parentNode?.parentNode as HTMLElement | null;
+  if (!row) return;
+  if (row.classList.contains("expanded")) {
+    collapse(e.currentTarget);
   } else {
-    expand(e.target);
+    expand(e.currentTarget);
   }
 };
 
-const expand = (element) => {
+const expand = (element: Element) => {
   element.innerHTML = "▾";
-  if (element.parentNode.parentNode)
-    element.parentNode.parentNode.classList.add("expanded");
+  element.parentNode?.parentNode &&
+    (element.parentNode.parentNode as HTMLElement).classList.add("expanded");
 };
 
-const collapse = (element) => {
+const collapse = (element: Element) => {
   element.innerHTML = "▸";
-  element.parentNode.parentNode.classList.remove("expanded");
+  (element.parentNode?.parentNode as HTMLElement | null)?.classList.remove(
+    "expanded",
+  );
 };
 
 const expandAll = () => {
@@ -36,33 +40,37 @@ const collapseAll = () => {
   });
 };
 
-const expandParents = (element) => {
-  if (element.parentNode.parentNode.classList.contains("genome-property")) {
-    element.parentNode.parentNode.classList.add("expanded");
-    if (element.parentNode.parentNode.querySelector("span.expander"))
-      element.parentNode.parentNode.querySelector("span.expander").innerHTML =
-        "▾";
-    expandParents(element.parentNode.parentNode);
+const expandParents = (element: Element | null) => {
+  const row = element?.parentNode?.parentNode as HTMLElement | undefined;
+  if (row?.classList.contains("genome-property")) {
+    row.classList.add("expanded");
+    const expander = row.querySelector("span.expander");
+    if (expander) expander.innerHTML = "▾";
+    expandParents(row);
   }
 };
 
-const searchHierarchy = (e) => {
+const searchHierarchy = (e: ChangeEvent<HTMLInputElement>) => {
   const term = e.target.value;
   collapseAll();
   document
     .querySelectorAll("span.genprop-label")
-    .forEach((e) => e.classList.remove("search-match"));
+    .forEach((el) => el.classList.remove("search-match"));
   if (term.trim() !== "")
     document
       .querySelectorAll(`span.genprop-label[data-text*="${term}"]`)
-      .forEach((e) => {
-        e.classList.add("search-match");
-        expandParents(e.parentNode.parentNode);
+      .forEach((el) => {
+        el.classList.add("search-match");
+        expandParents(el.parentNode?.parentNode as Element);
       });
 };
 
-const renderHierarchyFromData = (node, level, expanded = false) => {
-  const children = node?.gpstepSet?.edges;
+const renderHierarchyFromData = (
+  node: HierarchyNode | null | undefined,
+  level: number,
+  expanded = false,
+) => {
+  const children = node?.children ?? [];
 
   if (node) {
     return (
@@ -71,8 +79,7 @@ const renderHierarchyFromData = (node, level, expanded = false) => {
         key={node.accession}
       >
         <header>
-          {children?.length &&
-          children[0]?.node.gpstepevidencegpSet?.edges.length ? (
+          {children.length ? (
             <span
               className="expander"
               style={{ border: 0, color: "darkred" }}
@@ -98,14 +105,11 @@ const renderHierarchyFromData = (node, level, expanded = false) => {
           </span>
         </header>
 
-        {children?.length ? (
+        {children.length ? (
           <div className="children" style={{ marginLeft: `${level * 10}px` }}>
-            {children.map((edge) => {
-              const childrenNode =
-                edge.node.gpstepevidencegpSet?.edges[0]?.node.gpAccession ||
-                undefined;
-              return renderHierarchyFromData(childrenNode, level + 1, false);
-            })}
+            {children.map((child) =>
+              renderHierarchyFromData(child, level + 1, false),
+            )}
           </div>
         ) : null}
       </div>
@@ -116,69 +120,36 @@ const renderHierarchyFromData = (node, level, expanded = false) => {
 
 const Hierarchy = () => {
   const accession = "GenProp0065";
-  const { loading, error, data } = useQuery(BASIC_HIERARCHY, {
-    variables: { accession: accession },
-  });
-  const { loading: loadingF, error: errorF, data: dataF } = useQuery(
-    HIERARCHY,
-    {
-      variables: { accession: accession },
-    }
+  const { loading, error, data } = useApi<HierarchyNode>(
+    `/hierarchy/${encodeURIComponent(accession)}/`,
   );
+
   if (error) return <p>Error! </p>;
+  if (loading) return <Loading />;
 
-  const currentData =
-    (!loadingF && !errorF && dataF) || (!loading && data) || {};
-
-  const gpNode = currentData?.genomeProperties?.edges?.[0]?.node;
-  const tree = renderHierarchyFromData(gpNode, 1, true);
+  const tree = renderHierarchyFromData(data, 1, true);
   return (
     <section>
-      <section className="progress">
-        <table className="vf-table vf-table--tight">
-          <thead className="vf-table__header">
-            <tr className="vf-table__row">
-              <th className="vf-table__heading" scope="col" colSpan={2}>
-                Loading progress
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="vf-table__row">
-              <td className="vf-table__cell">High-level hierarchy</td>
-              <td className="vf-table__cell state">
-                {loading ? <Loading /> : "✅"}
-              </td>
-            </tr>
-            <tr className="vf-table__row">
-              <td className="vf-table__cell">Steps</td>
-              <td className="vf-table__cell state">
-                {loadingF ? <Loading /> : "✅"}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        {tree && (
-          <div>
-            <input
-              type="text"
-              id="genprop-searcher"
-              placeholder="Search"
-              onChange={searchHierarchy}
-            />
-            <a className="expand-all" onClick={expandAll}>
-              Expand All
-            </a>{" "}
-            |{" "}
-            <a className="collapse-all" onClick={collapseAll}>
-              Collapse All
-            </a>
-            <br />
-            <br />
-            {tree}
-          </div>
-        )}
-      </section>
+      {tree && (
+        <div>
+          <input
+            type="text"
+            id="genprop-searcher"
+            placeholder="Search"
+            onChange={searchHierarchy}
+          />
+          <a className="expand-all" onClick={expandAll}>
+            Expand All
+          </a>{" "}
+          |{" "}
+          <a className="collapse-all" onClick={collapseAll}>
+            Collapse All
+          </a>
+          <br />
+          <br />
+          {tree}
+        </div>
+      )}
     </section>
   );
 };

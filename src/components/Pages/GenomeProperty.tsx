@@ -1,7 +1,6 @@
-import { useQuery } from "@apollo/client";
 import { Fragment } from "react";
 import { Link, useParams } from "react-router-dom";
-import { GENOME_PROPERTY } from "../../graphql/queries";
+import { useApi, type GenomePropertyDetail } from "../../api";
 import Loading from "../Loading";
 
 const renderDBLink = (id, link, others) => {
@@ -97,14 +96,12 @@ const renderEvidenceLink = (id) => {
 
 const GenomeProperty = () => {
   const { accession } = useParams();
-  const { loading, error, data } = useQuery(GENOME_PROPERTY, {
-    variables: { accession: accession },
-  });
+  const { loading, error, data: gp } = useApi<GenomePropertyDetail>(
+    accession ? `/genome-properties/${encodeURIComponent(accession)}/` : null,
+  );
 
   if (loading) return <Loading />;
-  if (error) return <p>Error! </p>;
-
-  const gp = data.genomeProperties.edges[0].node;
+  if (error || !gp) return <p>Error! </p>;
   return (
     <section className={"gp-content"}>
       <h2>
@@ -123,30 +120,27 @@ const GenomeProperty = () => {
         <h4>References</h4>
 
         <ul className="references">
-          {gp.gplitrefSet?.edges.length > 0 ? (
-            gp.gplitrefSet.edges.map((edge, i) => {
-              const { literatureReferencePmid: litRef, listOrder } = edge.node;
-              return (
-                <li
-                  className="reference"
-                  id={`${accession}-${listOrder}`}
-                  key={`${accession}-${listOrder}`}
+          {gp.literature.length > 0 ? (
+            gp.literature.map((litRef, i) => (
+              <li
+                className="reference"
+                id={`${accession}-${litRef.listOrder}`}
+                key={`${accession}-${litRef.listOrder}`}
+              >
+                <span className="index">[{i + 1}]</span>
+                <span className="authors">{(litRef.author || "") + " "}</span>
+                <span className="title">{(litRef.title || "") + " "}</span>
+                <span className="citation">{(litRef.journal || "") + " "}</span>
+                <span className="reference_id">{litRef.pmid + " "}</span>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://europepmc.org/abstract/MED/${litRef.pmid}`}
                 >
-                  <span className="index">[{i + 1}]</span>
-                  <span className="authors">{litRef.author + " "}</span>
-                  <span className="title">{litRef.title + " "}</span>
-                  <span className="citation">{litRef.journal + " "}</span>
-                  <span className="reference_id">{litRef.pmid + " "}</span>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`https://europepmc.org/abstract/MED/${litRef.pmid}`}
-                  >
-                    EuropePMC
-                  </a>
-                </li>
-              );
-            })
+                  EuropePMC
+                </a>
+              </li>
+            ))
           ) : (
             <cite>None</cite>
           )}
@@ -156,15 +150,12 @@ const GenomeProperty = () => {
         <h4>Database Links</h4>
 
         <ul>
-          {gp.gpdatabaselinkSet?.edges.length > 0 ? (
-            gp.gpdatabaselinkSet.edges.map((edge) => {
-              const { dbId, dbLink, comment, otherParams } = edge.node;
-              return (
-                <li key={dbId}>
-                  <b>{comment}</b>: {renderDBLink(dbId, dbLink, otherParams)}
-                </li>
-              );
-            })
+          {gp.databaseLinks.length > 0 ? (
+            gp.databaseLinks.map(({ dbId, dbLink, comment, otherParams }) => (
+              <li key={dbId}>
+                <b>{comment}</b>: {renderDBLink(dbId, dbLink, otherParams)}
+              </li>
+            ))
           ) : (
             <cite>None</cite>
           )}
@@ -183,23 +174,22 @@ const GenomeProperty = () => {
                 <th style={{ textAlign: "left" }}>Accession</th>
               </tr>
 
-              {gp.gpstepSet.edges.map((edge, i) => {
-                const { stepId, gpstepevidencegpSet } = edge.node;
-                const accNode = gpstepevidencegpSet.edges[0].node.gpAccession;
+              {gp.steps.map((step, i) => {
+                if (!step.childAccession) return null;
                 return (
                   <tr
                     style={{ backgroundColor: "white" }}
-                    key={accNode.accession}
+                    key={step.childAccession}
                   >
                     <td>
                       {i + 1}.{" "}
-                      <Link to={`/genome-property/${accNode.accession}`}>
-                        {stepId}
+                      <Link to={`/genome-property/${step.childAccession}`}>
+                        {step.stepId}
                       </Link>
                     </td>
                     <td>
-                      <Link to={`/genome-property/${accNode.accession}`}>
-                        {accNode.accession}
+                      <Link to={`/genome-property/${step.childAccession}`}>
+                        {step.childAccession}
                       </Link>
                     </td>
                   </tr>
@@ -222,67 +212,53 @@ const GenomeProperty = () => {
                 <th style={{ textAlign: "left" }}>Go Terms</th>
               </tr>
 
-              {gp.gpstepSet.edges.map((edge) => {
-                const {
-                  stepId,
-                  stepNumber,
-                  required,
-                  gpstepevidenceiprSet,
-                } = edge.node;
-                return (
-                  <Fragment key={`${stepId}-${stepNumber}`}>
-                    {gpstepevidenceiprSet.edges.map((stepEdge, i) => {
-                      const gpToIpr = stepEdge.node;
-                      const iprToGo = gpToIpr.iprsteptogoSet?.edges[0]?.node;
-                      return (
-                        <Fragment key={`${stepId}-${stepNumber}-${i}`}>
-                          {i > 0 ? (
-                            <tr style={{ backgroundColor: "white" }}>
-                              <td>
-                                {renderEvidenceLink(gpToIpr.interproAcc)} -{" "}
-                                {renderEvidenceLink(gpToIpr.signatureAcc)}
-                              </td>
-                              <td>
-                                {iprToGo ? (
-                                  renderEvidenceLink(iprToGo.go.goId)
-                                ) : (
-                                  <cite>None</cite>
-                                )}
-                              </td>
-                            </tr>
-                          ) : (
-                            <tr style={{ backgroundColor: "white" }}>
-                              <td rowSpan={gpstepevidenceiprSet.edges.length}>
-                                {stepNumber}. {stepId}
-                                {required ? null : (
-                                  <>
-                                    {" "}
-                                    <br />{" "}
-                                    <span className="tag secondary">
-                                      Optional
-                                    </span>
-                                  </>
-                                )}
-                              </td>
-                              <td>
-                                {renderEvidenceLink(gpToIpr.interproAcc)} -{" "}
-                                {renderEvidenceLink(gpToIpr.signatureAcc)}
-                              </td>
-                              <td>
-                                {iprToGo ? (
-                                  renderEvidenceLink(iprToGo.go.goId)
-                                ) : (
-                                  <cite>None</cite>
-                                )}
-                              </td>
-                            </tr>
-                          )}
-                        </Fragment>
-                      );
-                    })}
-                  </Fragment>
-                );
-              })}
+              {gp.steps.map((step) => (
+                <Fragment key={`${step.stepId}-${step.stepNumber}`}>
+                  {step.evidence.map((item, i) => (
+                    <Fragment key={`${step.stepId}-${step.stepNumber}-${i}`}>
+                      {i > 0 ? (
+                        <tr style={{ backgroundColor: "white" }}>
+                          <td>
+                            {renderEvidenceLink(item.interproAcc)} -{" "}
+                            {renderEvidenceLink(item.signatureAcc)}
+                          </td>
+                          <td>
+                            {item.goId ? (
+                              renderEvidenceLink(item.goId)
+                            ) : (
+                              <cite>None</cite>
+                            )}
+                          </td>
+                        </tr>
+                      ) : (
+                        <tr style={{ backgroundColor: "white" }}>
+                          <td rowSpan={step.evidence.length}>
+                            {step.stepNumber}. {step.stepId}
+                            {step.required ? null : (
+                              <>
+                                {" "}
+                                <br />{" "}
+                                <span className="tag secondary">Optional</span>
+                              </>
+                            )}
+                          </td>
+                          <td>
+                            {renderEvidenceLink(item.interproAcc)} -{" "}
+                            {renderEvidenceLink(item.signatureAcc)}
+                          </td>
+                          <td>
+                            {item.goId ? (
+                              renderEvidenceLink(item.goId)
+                            ) : (
+                              <cite>None</cite>
+                            )}
+                          </td>
+                        </tr>
+                      )}
+                    </Fragment>
+                  ))}
+                </Fragment>
+              ))}
             </tbody>
           </table>
           <span

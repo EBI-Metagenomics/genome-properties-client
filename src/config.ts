@@ -6,12 +6,19 @@ function routerBasename(raw: string | undefined): string {
   return value.replace(/\/+$/, "") || "/";
 }
 
+export function normalizeApiBase(raw: string | undefined): string {
+  return (raw || "http://127.0.0.1:8000")
+    .trim()
+    .replace(/\/+$/, "")
+    .replace(/\/graphql$/i, "");
+}
+
 function envFlag(raw: string | undefined): boolean {
   return ["true", "1", "yes"].includes((raw || "").trim().toLowerCase());
 }
 
 export const config = {
-  api: import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/graphql/",
+  api: normalizeApiBase(import.meta.env.VITE_API_URL),
   website: import.meta.env.VITE_WEBSITE || "http://localhost:3000",
   github:
     import.meta.env.VITE_GITHUB ||

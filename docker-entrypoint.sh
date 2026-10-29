@@ -9,7 +9,11 @@ substitute() {
   fi
 }
 
-substitute 'VITE_API_URL_PLACEHOLDER' "${VITE_API_URL}"
+api_url="${VITE_API_URL%/}"
+case "$api_url" in
+  */graphql) api_url="${api_url%/graphql}" ;;
+esac
+substitute 'VITE_API_URL_PLACEHOLDER' "${api_url}"
 substitute 'VITE_WEBSITE_PLACEHOLDER' "${VITE_WEBSITE}"
 substitute 'VITE_GITHUB_PLACEHOLDER' "${VITE_GITHUB}"
 substitute 'VITE_GP_SERVER_PLACEHOLDER' "${VITE_GP_SERVER}"
