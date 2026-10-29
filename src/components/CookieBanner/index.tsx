@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { config } from "../../config";
 
 const CookieBanner = () => {
   const [display, setDisplay] = useState(

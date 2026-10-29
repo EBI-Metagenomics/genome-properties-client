@@ -9,14 +9,29 @@ substitute() {
   fi
 }
 
-api_url="${VITE_API_URL%/}"
-case "$api_url" in
-  */graphql) api_url="${api_url%/graphql}" ;;
-esac
-substitute 'VITE_API_URL_PLACEHOLDER' "${api_url}"
-substitute 'VITE_WEBSITE_PLACEHOLDER' "${VITE_WEBSITE}"
-substitute 'VITE_GITHUB_PLACEHOLDER' "${VITE_GITHUB}"
-substitute 'VITE_GP_SERVER_PLACEHOLDER' "${VITE_GP_SERVER}"
-substitute 'VITE_SHOW_SERVICE_DISRUPTION_PLACEHOLDER' "${VITE_SHOW_SERVICE_DISRUPTION}"
+substitute_env() {
+  name="$1"
+  eval "value=\${$name-}"
+  substitute "${name}_PLACEHOLDER" "$value"
+}
+
+# Any VITE_* value from the ConfigMap is written into the built JS. New keys
+# still need a matching placeholder in the image (rebuild) the first time.
+for name in $(printenv | awk -F= '/^VITE_/ {print $1}'); do
+  case "$name" in
+    VITE_BASENAME)
+      ;;
+    VITE_API_URL)
+      api_url="${VITE_API_URL%/}"
+      case "$api_url" in
+        */graphql) api_url="${api_url%/graphql}" ;;
+      esac
+      substitute "VITE_API_URL_PLACEHOLDER" "$api_url"
+      ;;
+    *)
+      substitute_env "$name"
+      ;;
+  esac
+done
 
 exec nginx -g 'daemon off;'
