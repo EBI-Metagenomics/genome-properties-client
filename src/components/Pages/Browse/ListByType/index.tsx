@@ -4,7 +4,7 @@ import Loading from "../../../Loading";
 
 const ListByType = ({ type }: { type: string }) => {
   const { loading, error, data } = useApi<GenomePropertySummary[]>(
-    `/genome-properties/?type=${encodeURIComponent(type)}`,
+    `/v1/genome-properties?type=${encodeURIComponent(type)}`,
   );
 
   if (loading) return <Loading />;

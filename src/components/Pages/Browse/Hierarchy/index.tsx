@@ -121,7 +121,7 @@ const renderHierarchyFromData = (
 const Hierarchy = () => {
   const accession = "GenProp0065";
   const { loading, error, data } = useApi<HierarchyNode>(
-    `/hierarchy/${encodeURIComponent(accession)}/`,
+    `/v1/hierarchy/${encodeURIComponent(accession)}`,
   );
 
   if (error) return <p>Error! </p>;

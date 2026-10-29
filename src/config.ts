@@ -7,7 +7,7 @@ function routerBasename(raw: string | undefined): string {
 }
 
 export function normalizeApiBase(raw: string | undefined): string {
-  return (raw || "http://127.0.0.1:8000")
+  return (raw || "http://127.0.0.1:8000/api")
     .trim()
     .replace(/\/+$/, "")
     .replace(/\/graphql$/i, "");

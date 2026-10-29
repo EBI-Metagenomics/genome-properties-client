@@ -97,7 +97,7 @@ const renderEvidenceLink = (id) => {
 const GenomeProperty = () => {
   const { accession } = useParams();
   const { loading, error, data: gp } = useApi<GenomePropertyDetail>(
-    accession ? `/genome-properties/${encodeURIComponent(accession)}/` : null,
+    accession ? `/v1/genome-properties/${encodeURIComponent(accession)}` : null,
   );
 
   if (loading) return <Loading />;

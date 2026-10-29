@@ -11,7 +11,7 @@ cp .env.example .env
 npm start
 ```
 
-The app expects the REST API at `VITE_API_URL` (default `http://127.0.0.1:8000`).
+The app expects the REST API at `VITE_API_URL` (default `http://127.0.0.1:8000/api`). Paths are `/v1/...`; Swagger is at `/v1/docs`.
 
 ## Docker
 
