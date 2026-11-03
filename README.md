@@ -42,8 +42,9 @@ Vite inlines env at build time. The image is built with `VITE_*_PLACEHOLDER` val
 
 The frontend Deployment uses `envFrom` on `gp-frontend-configmap`. Changing an existing URL is:
 
-1. Edit `genome-properties/base/frontend/links.env` (shared defaults) or the overlay `gp-frontend-configmap` merge literals
-2. Apply the ConfigMap and restart the portal pod
+1. Shared docs/database links: `genome-properties/base/frontend/links.env`
+2. Per-environment values (API, website, Matomo, GitHub raw, GP server): the overlay `gp-frontend-configmap` merge literals in `overlays/dev` or `overlays/prod`
+3. Apply the ConfigMap and restart the portal pod
 
 A **new** URL key also needs a matching placeholder in the client image (`src/constants/links.ts`, `Dockerfile`, then rebuild).
 
