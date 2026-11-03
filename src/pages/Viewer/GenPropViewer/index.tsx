@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import gpv from "genome-properties-viewer";
+import gpv from "@microbiome-informatics/genome-properties-viewer";
 import Select from "react-select";
 
-import "genome-properties-viewer/gp-style.css";
+import "@microbiome-informatics/genome-properties-viewer/gp-style.css";
 import "./style.css";
 import {
   trackViewerFileUpload,

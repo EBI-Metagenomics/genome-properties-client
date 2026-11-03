@@ -43,7 +43,7 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
-declare module "genome-properties-viewer" {
+declare module "@microbiome-informatics/genome-properties-viewer" {
   const gpv: {
     d3: any;
     GenomePropertiesViewer: new (options: Record<string, unknown>) => any;
