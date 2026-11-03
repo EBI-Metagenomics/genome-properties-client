@@ -4,6 +4,11 @@ import Select from "react-select";
 
 import "genome-properties-viewer/gp-style.css";
 import "./style.css";
+import {
+  trackViewerFileUpload,
+  trackViewerOpen,
+  trackViewerSpeciesSelect,
+} from "@/analytics/events";
 import { config } from "@/config";
 
 const GenPropViewer = () => {
@@ -11,6 +16,7 @@ const GenPropViewer = () => {
   const viewerRef = useRef<any>(null);
   const [options, setOptions] = useState([]);
   useEffect(() => {
+    trackViewerOpen();
     const { d3, GenomePropertiesViewer, uploadLocalGPFile } = gpv as any;
     const viewer = new GenomePropertiesViewer({
       element_selector: "#gp-viewer",
@@ -64,11 +70,15 @@ const GenPropViewer = () => {
 
   const handleFileChange = (evt) => {
     const oFiles = evt.target.files;
+    if (!oFiles?.length) return;
+    trackViewerFileUpload(oFiles.length);
     for (let i = 0; i < oFiles.length; i++) {
       (gpv as any).uploadLocalGPFile(viewerRef.current, oFiles[i]);
     }
   };
   const handleSelectChange = (optionSelected) => {
+    if (!optionSelected?.value) return;
+    trackViewerSpeciesSelect(String(optionSelected.value));
     viewerRef.current.gp_taxonomy.dipatcher.call(
       "spaciesRequested",
       this,

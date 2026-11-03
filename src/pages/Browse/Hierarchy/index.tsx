@@ -1,6 +1,7 @@
-import type { ChangeEvent, MouseEvent } from "react";
+import { type ChangeEvent, type MouseEvent, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useApi, type HierarchyNode } from "@/api";
+import { trackBrowseType } from "@/analytics/events";
 import Loading from "@/components/Loading";
 
 import "./style.css";
@@ -123,6 +124,10 @@ const Hierarchy = () => {
   const { loading, error, data } = useApi<HierarchyNode>(
     `/v1/hierarchy/${encodeURIComponent(accession)}`,
   );
+
+  useEffect(() => {
+    trackBrowseType("HIERARCHY");
+  }, []);
 
   if (error) return <p>Error! </p>;
   if (loading) return <Loading />;

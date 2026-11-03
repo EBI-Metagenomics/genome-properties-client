@@ -1,11 +1,17 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useApi, type GenomePropertySummary } from "@/api";
+import { trackBrowseType } from "@/analytics/events";
 import Loading from "@/components/Loading";
 
 const ListByType = ({ type }: { type: string }) => {
   const { loading, error, data } = useApi<GenomePropertySummary[]>(
     `/v1/genome-properties?type=${encodeURIComponent(type)}`,
   );
+
+  useEffect(() => {
+    trackBrowseType(type);
+  }, [type]);
 
   if (loading) return <Loading />;
   if (error) return <p>Error!</p>;

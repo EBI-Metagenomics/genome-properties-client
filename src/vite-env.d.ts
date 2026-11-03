@@ -7,6 +7,10 @@ interface ImportMetaEnv {
   readonly VITE_GITHUB: string;
   readonly VITE_GP_SERVER: string;
   readonly VITE_SHOW_SERVICE_DISRUPTION: string;
+  readonly VITE_MATOMO_ENABLED?: string;
+  readonly VITE_MATOMO_URL?: string;
+  readonly VITE_MATOMO_SITE_ID?: string;
+  readonly VITE_MATOMO_SCRIPT_URL?: string;
   readonly VITE_URL_INTERPROSCAN: string;
   readonly VITE_URL_GITHUB_REPO: string;
   readonly VITE_URL_PROTEOME_LIST: string;
@@ -54,4 +58,5 @@ declare module "*.css";
 
 interface Window {
   viewer?: unknown;
+  _paq?: unknown[][];
 }

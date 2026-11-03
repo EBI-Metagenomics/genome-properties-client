@@ -13,6 +13,17 @@ npm start
 
 The app expects the REST API at `VITE_API_URL` (default `http://127.0.0.1:8000/api`). Paths are `/v1/...`; Swagger is at `/v1/docs`.
 
+### Matomo analytics
+
+Direct Matomo JS tracker (`_paq`) only — **Matomo Tag Manager is not used**. Tracking is off unless enabled, and pageviews/events fire only after cookie consent.
+
+- `VITE_MATOMO_ENABLED` — master switch (`false` by default)
+- `VITE_MATOMO_URL` — tracker base (default `https://ebi-mgnify.matomo.cloud/`)
+- `VITE_MATOMO_SITE_ID` — site ID (required when enabled; do not reuse another product's ID)
+- `VITE_MATOMO_SCRIPT_URL` — optional CDN override for `matomo.js`
+
+Custom events live in `src/analytics/` (`property_open`, `browse_type`, `viewer_open`, `viewer_species_select`, `viewer_file_upload`).
+
 ## Source layout
 
 - `src/pages` — route screens

@@ -1,6 +1,7 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useApi, type GenomePropertyDetail } from "@/api";
+import { trackPropertyOpen } from "@/analytics/events";
 import ExternalLink from "@/components/ExternalLink";
 import Loading from "@/components/Loading";
 import {
@@ -38,6 +39,12 @@ const GenomeProperty = () => {
   const { loading, error, data: gp } = useApi<GenomePropertyDetail>(
     accession ? `/v1/genome-properties/${encodeURIComponent(accession)}` : null,
   );
+
+  useEffect(() => {
+    if (accession && gp) {
+      trackPropertyOpen(accession);
+    }
+  }, [accession, gp]);
 
   if (loading) return <Loading />;
   if (error || !gp) return <p>Error! </p>;
