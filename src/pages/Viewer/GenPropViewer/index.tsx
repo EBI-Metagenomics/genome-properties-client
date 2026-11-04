@@ -66,6 +66,18 @@ const GenPropViewer = () => {
       viewer.gp_taxonomy.show_tree = showTaxonomy;
       viewer.update_viewer();
     });
+
+    return () => {
+      if (typeof viewer.destroy === "function") {
+        viewer.destroy();
+      } else {
+        d3.select("#gp-viewer").selectAll("*").remove();
+      }
+      viewerRef.current = null;
+      if (window.viewer === viewer) {
+        delete window.viewer;
+      }
+    };
   }, []);
 
   const handleFileChange = (evt) => {
