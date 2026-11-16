@@ -25,6 +25,10 @@ export default defineConfig(({ mode }) => ({
     port: 3000,
     host: "127.0.0.1",
   },
+  optimizeDeps: {
+    // Package ships source files; prebundling can serve a stale copy after local fixes.
+    exclude: ["@microbiome-informatics/genome-properties-viewer"],
+  },
   build: {
     outDir: "dist",
     sourcemap: true,

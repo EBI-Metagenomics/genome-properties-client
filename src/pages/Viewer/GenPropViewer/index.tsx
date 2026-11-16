@@ -80,12 +80,37 @@ const GenPropViewer = () => {
     };
   }, []);
 
+  const applyTextFilter = (value: string) => {
+    const viewer = viewerRef.current;
+    if (!viewer) return;
+    const next = value.length > 2 ? value : "";
+    if (viewer.filter_text === next) return;
+    viewer.filter_text = next;
+    if (viewer.current_scroll) viewer.current_scroll.y = 0;
+    viewer.update_viewer();
+  };
+
   const handleFileChange = (evt) => {
     const oFiles = evt.target.files;
     if (!oFiles?.length) return;
+    const viewer = viewerRef.current;
+    const upload =
+      (gpv as any).uploadLocalGPFile || (gpv as any).default?.uploadLocalGPFile;
+    if (!viewer || typeof upload !== "function") {
+      return;
+    }
     trackViewerFileUpload(oFiles.length);
     for (let i = 0; i < oFiles.length; i++) {
-      (gpv as any).uploadLocalGPFile(viewerRef.current, oFiles[i]);
+      try {
+        upload(viewer, oFiles[i]);
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Could not load the selected file";
+        viewer.modal?.showContent?.(
+          `<h3><div class='error'>${message}</div></h3>`,
+          false,
+        );
+      }
     }
   };
   const handleSelectChange = (optionSelected) => {
@@ -123,7 +148,11 @@ const GenPropViewer = () => {
               </li>
               <li className="vf-list__item">
                 <label htmlFor="gp-filter">By text:</label>
-                <input type="text" id="gp-filter" />
+                <input
+                  type="text"
+                  id="gp-filter"
+                  onInput={(event) => applyTextFilter(event.currentTarget.value)}
+                />
               </li>
             </ul>
           </div>
