@@ -14,6 +14,13 @@ div.top-controllers {
     margin: 0;
   }
 
+  .gp-upload-status {
+    margin: 6px 0 0;
+    font-size: 0.85em;
+    color: #19305a;
+    max-width: 220px;
+  }
+
   & div.gp-legends ul {
     list-style-type: none;
 

@@ -15,6 +15,7 @@ const GenPropViewer = () => {
   const github = config.github;
   const viewerRef = useRef<any>(null);
   const [options, setOptions] = useState([]);
+  const [uploadStatus, setUploadStatus] = useState("");
   useEffect(() => {
     trackViewerOpen();
     const { d3, GenomePropertiesViewer, uploadLocalGPFile } = gpv as any;
@@ -97,8 +98,13 @@ const GenPropViewer = () => {
     const upload =
       (gpv as any).uploadLocalGPFile || (gpv as any).default?.uploadLocalGPFile;
     if (!viewer || typeof upload !== "function") {
+      setUploadStatus("Viewer is not ready. Wait for the tree to load, then try again.");
       return;
     }
+    const names = [...oFiles].map((file) => file.name).join(", ");
+    setUploadStatus(
+      `Selected ${names}.`,
+    );
     trackViewerFileUpload(oFiles.length);
     for (let i = 0; i < oFiles.length; i++) {
       try {
@@ -106,6 +112,7 @@ const GenPropViewer = () => {
       } catch (error) {
         const message =
           error instanceof Error ? error.message : "Could not load the selected file";
+        setUploadStatus(message);
         viewer.modal?.showContent?.(
           `<h3><div class='error'>${message}</div></h3>`,
           false,
@@ -136,6 +143,9 @@ const GenPropViewer = () => {
               <li className="vf-list__item">
                 <label htmlFor="newfile">Upload a File: </label>
                 <input type="file" id="newfile" onChange={handleFileChange} />
+                {uploadStatus ? (
+                  <p className="gp-upload-status">{uploadStatus}</p>
+                ) : null}
               </li>
             </ul>
           </div>
