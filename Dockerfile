@@ -2,7 +2,7 @@ FROM node:22-alpine AS build
 
 WORKDIR /app
 
-ARG VITE_BASENAME=/
+ARG VITE_BASENAME=/interpro/genomeproperties
 ENV VITE_BASENAME=$VITE_BASENAME
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
@@ -52,7 +52,7 @@ RUN VITE_API_URL="VITE_API_URL_PLACEHOLDER" \
 FROM nginx:stable-alpine AS runtime
 
 COPY --from=build --chown=nginx:nginx /app/dist /usr/share/nginx/html
-COPY --from=build --chown=nginx:nginx /app/dist /usr/share/nginx/html/genomeproperties
+COPY --from=build --chown=nginx:nginx /app/dist /usr/share/nginx/html/interpro/genomeproperties
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
