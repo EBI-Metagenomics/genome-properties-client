@@ -6,7 +6,7 @@ import {
   type LinkName,
 } from "@/constants";
 import { envFlag, readEnv } from "@/utils/env";
-import { normalizeApiBase, routerBasename } from "@/utils/url";
+import { joinUrl, normalizeApiBase, routerBasename } from "@/utils/url";
 
 function link(name: LinkName): string {
   return readEnv(LINK_ENV_KEYS[name], LINK_DEFAULTS[name]);
@@ -27,11 +27,13 @@ export type MatomoConfig = {
   scriptUrl: string;
 };
 
+const api = normalizeApiBase(import.meta.env.VITE_API_URL);
+
 export const config = {
-  api: normalizeApiBase(import.meta.env.VITE_API_URL),
+  api,
   website: readEnv("VITE_WEBSITE", APP_DEFAULTS.website),
   github: readEnv("VITE_GITHUB", APP_DEFAULTS.githubRaw),
-  gpServer: readEnv("VITE_GP_SERVER", APP_DEFAULTS.gpServer),
+  gpServer: joinUrl(api, APP_DEFAULTS.gpAssignPath),
   basename: routerBasename(import.meta.env.VITE_BASENAME),
   showServiceDisruption: envFlag(import.meta.env.VITE_SHOW_SERVICE_DISRUPTION),
 };

@@ -5,7 +5,6 @@ interface ImportMetaEnv {
   readonly VITE_BASENAME: string;
   readonly VITE_WEBSITE: string;
   readonly VITE_GITHUB: string;
-  readonly VITE_GP_SERVER: string;
   readonly VITE_SHOW_SERVICE_DISRUPTION: string;
   readonly VITE_MATOMO_ENABLED?: string;
   readonly VITE_MATOMO_URL?: string;

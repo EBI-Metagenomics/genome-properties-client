@@ -21,14 +21,18 @@ const Calculating = () => {
                     either case, users begin with their own query "proteome" in the form of a list of protein sequences
                     in FASTA format. The InterProScan matches for this proteome must then be calculated. This can either
                     be done using EBI webservices, or by downloading InterProScan and running the calculation locally.
-                    By either method, the InterProScan matches must be output as TSV format. For more information on
+                    By either method, the InterProScan matches must be output as TSV format
+                    (<code>interproscan.sh -f tsv</code>). The Viewer also accepts the InterPro website
+                    proteome “Entries matching” TSV. For more information on
                     using InterProScan, please see <ExternalLink href={links.interproscan}>here</ExternalLink>.
                 </p>
                 <h3 id="websiteviewermethod">Website/Viewer method</h3>
                 <p>
                     To display the GPs results for your proteome, navigate to the <Link to="/viewer">Viewer</Link> page, and
-                    upload the TSV file using the Browse/Choose File button at the top left of the page. The GPs results
-                    will be loaded into the matrix (with the file name displayed in red) allowing easy comparison of the
+                    upload the TSV file using the Browse/Choose File button at the top left of the page. InterProScan
+                    TSV and InterPro “Entries matching” TSV are both sent to the Genome Properties API for assignment.
+                    Gzip-compressed files (<code>.gz</code>) are accepted.
+                    The GPs results will be loaded into the matrix (with the file name displayed in red) allowing easy comparison of the
                     pattern of assertions for the user-defined proteome, with the set of representative species results.
                 </p>
                 <h3 id="localanalysismethod">Local analysis method</h3>

@@ -119,6 +119,7 @@ const GenPropViewer = () => {
         );
       }
     }
+    evt.target.value = "";
   };
   const handleSelectChange = (optionSelected) => {
     if (!optionSelected?.value) return;
@@ -141,8 +142,28 @@ const GenPropViewer = () => {
                 <Select onChange={handleSelectChange} options={options} />
               </li>
               <li className="vf-list__item">
-                <label htmlFor="newfile">Upload a File: </label>
-                <input type="file" id="newfile" onChange={handleFileChange} />
+                <span className="gp-file-label-text">Upload a File:</span>
+                <div className="gp-file-picker">
+                  <button
+                    type="button"
+                    className="button secondary gp-file-button"
+                    onClick={() => document.getElementById("newfile")?.click()}
+                  >
+                    Choose file
+                  </button>
+                  <input
+                    type="file"
+                    id="newfile"
+                    className="gp-file-input"
+                    accept=".tsv,.txt,.gz,text/tab-separated-values,text/plain,application/gzip,application/x-gzip"
+                    title=" "
+                    tabIndex={-1}
+                    onChange={handleFileChange}
+                  />
+                </div>
+                <p className="gp-upload-hint">
+                  InterProScan TSV, InterPro entries TSV, or gzip (.gz)
+                </p>
                 {uploadStatus ? (
                   <p className="gp-upload-status">{uploadStatus}</p>
                 ) : null}

@@ -50,9 +50,10 @@ const Instructions = () => {
                         to load data for, using the search box shown. The list of species available can be found
                         under the <em>Species</em> tab or <ExternalLink href={links.proteomeList}>here</ExternalLink>. You are also able to upload data for a
                         novel genome/proteome/species using the 'Browse' button. To utilise this functionality, you
-                        must first analyse the FASTA files contained in your novel species using InterProScan. The
-                        tsv output provided by InterProScan can then be uploaded to the Genome Properties viewer for
-                        comparison with representative species. For more information on using InterProScan see{" "}
+                        must first analyse the FASTA files contained in your novel species using InterProScan. Upload
+                        either the InterProScan TSV (<code>-f tsv</code>) or the InterPro proteome
+                        “Entries matching” TSV, plain or gzip-compressed. The viewer sends that file to the Genome Properties API and adds a
+                        column for comparison with representative species. For more information on using InterProScan see{" "}
                         <ExternalLink href={links.interproscan}>here</ExternalLink>.
                     </p>
                 </li>

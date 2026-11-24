@@ -64,8 +64,8 @@ const AboutGenomeProperties = () => {
                     <strong>Upload your data:</strong>{" "}
                     Further to the features of our interactive viewer already described, you are also able to upload
                     your own proteome data and compare this against the representative set of proteomes available. By
-                    analysing your proteome of interest using InterProScan, an output file of InterPro matches is
-                    produced. This file (tsv version) can be uploaded to the viewer page, allowing you to view the GP
+                    analysing your proteome of interest using InterProScan or by exporting InterPro entry matches,
+                    a TSV of InterPro matches is produced. This file can be uploaded to the viewer page, allowing you to view the GP
                     results for your proteome of interest in the colour-coded matrix viewer alongside your chosen
                     comparison set of proteomes/species.
                 </p>
