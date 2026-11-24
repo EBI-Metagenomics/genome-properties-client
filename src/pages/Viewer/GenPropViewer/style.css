@@ -1,3 +1,10 @@
+.gp-modal {
+  z-index: 10000;
+}
+.gp-modal-popup {
+  z-index: 10001;
+}
+
 @media (max-width: 1000px) {
   .top-controllers > div ul li {
     & label {
