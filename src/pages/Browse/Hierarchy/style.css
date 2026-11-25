@@ -1,0 +1,16 @@
+.expander {
+  cursor: pointer;
+}
+
+.search-match {
+  background-color: yellow;
+}
+
+.genome-property > .children {
+  margin: 5px;
+  display: none;
+}
+
+.genome-property.expanded > .children {
+  display: block;
+}

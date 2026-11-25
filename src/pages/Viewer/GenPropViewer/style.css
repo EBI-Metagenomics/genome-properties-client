@@ -1,0 +1,83 @@
+.gp-modal {
+  z-index: 10000;
+}
+.gp-modal-popup {
+  z-index: 10001;
+}
+
+@media (max-width: 1000px) {
+  .top-controllers > div ul li {
+    & label {
+      font-size: 0.8em;
+    }
+    & .color {
+      width: 16px;
+    }
+  }
+}
+
+div.top-controllers {
+  & > div {
+    margin: 0;
+  }
+
+  .gp-file-label-text {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .gp-file-picker {
+    position: relative;
+    display: inline-block;
+  }
+
+  .gp-file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .gp-file-button {
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .gp-upload-hint,
+  .gp-upload-status {
+    margin: 6px 0 0;
+    font-size: 0.85em;
+    color: #19305a;
+    max-width: 220px;
+  }
+
+  .gp-upload-hint {
+    color: #5a6577;
+  }
+
+  & div.gp-legends ul {
+    list-style-type: none;
+
+    & li {
+      display: flex;
+      width: 100%;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: flex-end;
+
+      & .color {
+        flex-shrink: 0;
+        transition: width 0.5s;
+
+        & div {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}

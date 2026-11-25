@@ -1,0 +1,36 @@
+.gp-cookie-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-inline: 1.5rem;
+  box-sizing: border-box;
+}
+
+.gp-cookie-banner__content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem 1.5rem;
+  width: 100%;
+  max-width: min(90rem, 100%);
+  margin: 0 auto;
+  padding-block: 0.75rem;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.gp-cookie-banner__text {
+  flex: 1 1 20rem;
+  margin: 0;
+  max-width: none;
+  text-align: left;
+}
+
+.gp-cookie-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 0 0 auto;
+}
